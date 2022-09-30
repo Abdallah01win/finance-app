@@ -116,6 +116,9 @@ const showingNavigationDropdown = ref(false);
                         <Link href="/">Dashboard</Link>
                     </li>
                     <li class="border-b border-gray-100 px-10 py-3">
+                        <Link href="transactions">Transactions</Link>
+                    </li>
+                    <li class="border-b border-gray-100 px-10 py-3">
                         <Link href="categories">Categories</Link>
                     </li>
                     <li class="border-b border-gray-100 px-10 py-3">
