@@ -112,11 +112,21 @@ const showingNavigationDropdown = ref(false);
             <!-- Side Menu -->
             <div class="bg-white shadow w-[22%] h-[91.5vh]">
                 <ul class="flex flex-col h-full">
-                    <li class="border-b border-gray-100 px-10 py-3">Dash</li>
-                    <li class="border-b border-gray-100 px-10 py-3">categories</li>
-                    <li class="border-b border-gray-100 px-10 py-3">Analytics</li>
-                    <li class="border-b border-gray-100 px-10 py-3 mt-auto">Log Out</li>
-                    <li class="border-b border-gray-100 px-10 py-3">Settings</li>
+                    <li class="border-b border-gray-100 px-10 py-3">
+                        <Link href="/">Dashboard</Link>
+                    </li>
+                    <li class="border-b border-gray-100 px-10 py-3">
+                        <Link href="categories">Categories</Link>
+                    </li>
+                    <li class="border-b border-gray-100 px-10 py-3">
+                        <Link href="analytics">Analytics</Link>
+                    </li>
+                    <li class="border-b border-gray-100 px-10 py-3 mt-auto">
+                        <Link :href="route('logout')" method="post" as="button">Log Out</Link>
+                    </li>
+                    <li class="border-b border-gray-100 px-10 py-3">
+                        <Link href="settings">Settings</Link>
+                    </li>
                 </ul>
             </div>
             <div  class="w-full">

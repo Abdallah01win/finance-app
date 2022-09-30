@@ -24,8 +24,16 @@ Route::get('/', function () {
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-/*Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');*/
+Route::get('/categories', function () {
+    return Inertia::render('Categories');
+})->middleware(['auth', 'verified'])->name('categories');
+
+Route::get('/analytics', function () {
+    return Inertia::render('Analytics');
+})->middleware(['auth', 'verified'])->name('analytics');
+
+Route::get('/settings', function () {
+    return Inertia::render('Settings');
+})->middleware(['auth', 'verified'])->name('settings');
 
 require __DIR__.'/auth.php';
