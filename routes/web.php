@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\CategoryController;
 use Inertia\Inertia;
 
 /*
@@ -36,6 +37,10 @@ Route::get('/transactions/list', [TransactionController::class, 'index'])->middl
 Route::get('/categories', function () {
     return Inertia::render('Categories');
 })->middleware(['auth', 'verified'])->name('categories');
+
+Route::post('/categories/add', [CategoryController::class, 'store'])->middleware(['auth', 'verified'])->name('categories/add');
+
+Route::post('/categories/list', [CategoryController::class, 'index'])->middleware(['auth', 'verified'])->name('categories/list');
 
 Route::get('/analytics', function () {
     return Inertia::render('Analytics');
