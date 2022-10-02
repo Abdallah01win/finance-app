@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TransactionController;
 use Inertia\Inertia;
 
 /*
@@ -27,6 +28,10 @@ Route::get('/', function () {
 Route::get('/transactions', function () {
     return Inertia::render('Transactions');
 })->middleware(['auth', 'verified'])->name('transactions');
+
+Route::post('/transactions/add', [TransactionController::class, 'store'])->middleware(['auth', 'verified'])->name('transactions/add');
+
+Route::get('/transactions/list', [TransactionController::class, 'index'])->middleware(['auth', 'verified'])->name('transactions/list');
 
 Route::get('/categories', function () {
     return Inertia::render('Categories');
