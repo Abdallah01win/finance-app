@@ -14,7 +14,7 @@ class TransactionController extends Controller
     public function index()
     {
         //route should be a post one and send fillters through it then build the query with the set ones 
-        return Transaction::where('userId', '=', Auth::id())->get();
+        return Transaction::where('userId', '=', Auth::id())->orderBy('created_at', 'desc')->get();
     }
 
     /**
