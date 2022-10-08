@@ -2,6 +2,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, } from '@inertiajs/inertia-vue3';
 import CategoryForm from '@/Components/CategoryForm.vue';
+
+const close = ()=>{
+    const formHolder = document.getElementById('formHolder');
+    formHolder.classList.toggle('hidden');
+}
 </script>
 <script>
 import axios from 'axios';
@@ -49,7 +54,9 @@ export default {
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center">
                     <h1 class="text-3xl font-bold mb-4">Categories</h1>
-                    <button>Add category</button>
+                    <button class="p-4 mr-2 bg-gray-800 rounded-full" @click="close">
+                        <img src="../../../storage/assets/plus-w.svg" alt="" class="w-6">
+                    </button>
                 </div>
                 <div class="mb-6">
                     <h3 class="mb-2 font-semibold text-xl">Expances Categories</h3>
