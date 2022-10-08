@@ -39,8 +39,10 @@ Route::get('/categories', function () {
 })->middleware(['auth', 'verified'])->name('categories');
 
 Route::post('/categories/add', [CategoryController::class, 'store'])->middleware(['auth', 'verified'])->name('categories/add');
+Route::post('/categories/edit', [CategoryController::class, 'edit'])->middleware(['auth', 'verified'])->name('categories/edit');
+Route::post('/categories/destroy', [CategoryController::class, 'destroy'])->middleware(['auth', 'verified'])->name('categories/destroy');
 
-Route::post('/categories/list', [CategoryController::class, 'index'])->middleware(['auth', 'verified'])->name('categories/list');
+Route::get('/categories/list', [CategoryController::class, 'index'])->middleware(['auth', 'verified'])->name('categories/list');
 
 Route::get('/analytics', function () {
     return Inertia::render('Analytics');
