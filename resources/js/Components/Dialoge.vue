@@ -22,7 +22,7 @@ const close = (id) => {
 }
 </script>
 <template>
-    <div class="bg-gray-700/50 absolute top-0 left-0 w-full h-screen z-10 hidden" :id="id">
+    <div class="bg-gray-700/50 absolute top-0 left-0 w-full h-screen z-10 hidden hid" :id="id">
         <div class=" bg-white overflow-hidden shadow-sm sm:rounded-lg px-10 py-8 w-[40%] mx-auto translate-y-[130%]">
             <div class="flex justify-between items-center mb-2">
                 <h3 class="text-xl font-semibold">{{this.title}}</h3>
