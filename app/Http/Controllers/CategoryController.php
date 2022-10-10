@@ -6,7 +6,7 @@ use App\Models\Category;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -99,8 +99,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->get('id');
+        DB::table('categories')->where('userId', Auth::id())->Where('id', $id)->delete();
+        return redirect('/categories')->with('success', 'Contact Deleted!');
     }
 }
