@@ -1,6 +1,11 @@
 <script setup>
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
+
+const close = (id) => {
+    const formHolder = document.getElementById(id);
+    formHolder.classList.toggle('hidden');
+}
 </script>
 <script>
 export default {
@@ -24,16 +29,19 @@ export default {
                     </div>
                     <Dropdown align="right" width="48">
                         <template #trigger>
-                            <img src="../../../storage/assets/dots.svg" alt="" class="w-6">
+                            <img src="../../../storage/assets/dots.svg" alt="" class="w-6 cursor-pointer">
                         </template>
 
                         <template #content>
-                            <DropdownLink :href="route('categories/edit')" method="post" as="button">
+                            <DropdownLink :href="route('categories/edit')" method="post" as="button"
+                                :data="{id : item.id}">
                                 Edit
                             </DropdownLink>
-                            <DropdownLink :href="route('categories/destroy')" method="post" as="button">
+                            <div as="button"
+                                class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out cursor-pointer"
+                                @click="()=>{ this.$emit('itemId', item.id); close('confirmDelete');}">
                                 Delete
-                            </DropdownLink>
+                            </div>
                         </template>
                     </Dropdown>
                 </div>

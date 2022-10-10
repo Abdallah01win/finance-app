@@ -3,7 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, } from '@inertiajs/inertia-vue3';
 import CategoryForm from '@/Components/CategoryForm.vue';
 import CategoryCard from '@/Components/CategoryCard.vue';
-
+import Dialoge from '@/Components/Dialoge.vue';
 const close = () => {
     const formHolder = document.getElementById('formHolder');
     formHolder.classList.toggle('hidden');
@@ -14,13 +14,15 @@ import axios from 'axios';
 export default {
     components: {
         CategoryForm,
-        CategoryCard
+        CategoryCard,
+        Dialoge,
     },
     data() {
         return {
             expances: [],
             income: [],
             investments: [],
+            itemId: Number,
         }
     },
     methods: {
@@ -37,6 +39,10 @@ export default {
                     }
                 });
             });
+        },
+        getItemId(val){
+            console.log(val)
+            this.itemId = val;
         }
     },
     mounted: function () {
@@ -62,24 +68,25 @@ export default {
                 <div class="mb-6">
                     <h3 class="mb-2 font-semibold text-xl">Expances Categories</h3>
                     <div class="grid grid-cols-3 gap-8">
-                        <CategoryCard :data="expances" />                  
+                        <CategoryCard :data="expances" @itemId="getItemId"/>                  
                     </div>
                 </div>
                 <div class="mb-6">
                     <h3 class="mb-2 font-semibold text-xl">Income Categories</h3>
                     <div class="grid grid-cols-3 gap-8">
-                        <CategoryCard :data="income" />
+                        <CategoryCard :data="income" @itemId="getItemId"/>
                     </div>
                 </div>
                 <div class="mb-6">
                     <h3 class="mb-2 font-semibold text-xl">Investment Categories</h3>
                     <div class="grid grid-cols-3 gap-8">
-                        <CategoryCard :data="investments" />                  
+                        <CategoryCard :data="investments" @itemId="getItemId"/>                  
                     </div>
                 </div>
             </div>
         </div>
         <CategoryForm />
+        <Dialoge :title="'Confirm Delete'" :id="'confirmDelete'" :msg="'Are You Sure You want to delete this category?'" :itemId="itemId"/>
     </AuthenticatedLayout>
 </template>
     

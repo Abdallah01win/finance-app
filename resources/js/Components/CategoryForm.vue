@@ -16,8 +16,8 @@ const submit = () => {
         onFinish: () => form.reset('title', 'limit', 'type'),
     });
 };
-const close = ()=>{
-    const formHolder = document.getElementById('formHolder');
+const close = (id)=>{
+    const formHolder = document.getElementById(id);
     formHolder.classList.toggle('hidden');
 }
 </script>
@@ -27,7 +27,7 @@ const close = ()=>{
         <div class=" bg-white overflow-hidden shadow-sm sm:rounded-lg px-10 py-8 w-[40%] mx-auto translate-y-[50%]">
             <div class="flex justify-between items-center mb-2">
                 <h3 class="text-xl font-semibold">Creat a New Category</h3>
-                <button class="p-2 bg-gray-200 rounded-full" @click="close">
+                <button class="p-2 bg-gray-200 rounded-full" @click="close('formHolder')">
                     <img src="../../../storage/assets/close.svg" alt="" class="w-6">
                 </button>
             </div>
@@ -40,7 +40,7 @@ const close = ()=>{
                 </div>
 
                 <div class="mt-4 w-full">
-                    <InputLabel for="limit" value="Limit" />
+                    <InputLabel for="limit" value="Target" />
                     <TextInput id="limit" type="number" min="0" class="mt-1 block w-full" v-model="form.limit"
                         autocomplete="" />
                     <InputError class="mt-2" :message="form.errors.limit" />
@@ -61,7 +61,7 @@ const close = ()=>{
                 <div class="flex items-center justify-end mt-6">
 
                     <PrimaryButton type="button" class="ml-4" :class="{ 'opacity-25': form.processing }"
-                        :disabled="form.processing" @click="close">
+                        :disabled="form.processing" @click="close('formHolder')">
                         Cancel
                     </PrimaryButton>
 
