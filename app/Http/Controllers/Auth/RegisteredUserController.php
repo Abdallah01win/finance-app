@@ -19,6 +19,11 @@ class RegisteredUserController extends Controller
      *
      * @return \Inertia\Response
      */
+    public function getBalance(){
+        return User::where('id', '=', Auth::id())->limit(1)->get('balance') ;
+    }
+
+
     public function create()
     {
         return Inertia::render('Auth/Register');

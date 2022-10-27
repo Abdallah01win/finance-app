@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CategoryController;
 use Inertia\Inertia;
 
@@ -43,6 +44,7 @@ Route::post('/categories/edit', [CategoryController::class, 'edit'])->middleware
 Route::post('/categories/destroy', [CategoryController::class, 'destroy'])->middleware(['auth', 'verified'])->name('categories/destroy');
 
 Route::get('/categories/list', [CategoryController::class, 'index'])->middleware(['auth', 'verified'])->name('categories/list');
+Route::get('/users/balance', [RegisteredUserController::class, 'getBalance'])->middleware(['auth', 'verified'])->name('/users/balance');
 
 Route::get('/analytics', function () {
     return Inertia::render('Analytics');

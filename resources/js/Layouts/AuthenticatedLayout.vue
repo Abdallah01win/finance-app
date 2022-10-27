@@ -9,6 +9,26 @@ import { Link } from '@inertiajs/inertia-vue3';
 
 const showingNavigationDropdown = ref(false);
 </script>
+<script>
+import axios from 'axios';
+export default {
+    data() {
+        return {
+            balance: Number,
+        }
+    },
+    methods: {
+        getBalance() {
+            axios.get('users/balance').then((response) => {
+                this.balance = response.data[0].balance
+            });
+        },
+    },
+    mounted: function () {
+        this.getBalance();
+    }
+}
+</script>
 
 <template>
     <div>
@@ -34,6 +54,11 @@ const showingNavigationDropdown = ref(false);
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
+                            <!-- Balance -->
+                            <div>
+                                <span>Your Balance: </span>
+                                {{balance}} DH
+                            </div>
                             <!-- Settings Dropdown -->
                             <div class="ml-3 relative">
                                 <Dropdown align="right" width="48">

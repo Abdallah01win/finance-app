@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 class TransactionController extends Controller
 {
     /**
@@ -35,15 +38,16 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
+        $userId = Auth::id();
         $request->validate([
-            'title'=>'required',
-            'ammount'=>'required',
-            'type'=>'required',
-            'category'=>'required'
+            'title' => 'required',
+            'ammount' => 'required',
+            'type' => 'required',
+            'category' => 'required'
         ]);
 
-        $contact = new Transaction ([
-            'userId' => Auth::id(),
+        $contact = new Transaction([
+            'userId' => $userId,
             'title' => $request->get('title'),
             'date' => $request->get('date'),
             'description' => $request->get('description'),
@@ -51,6 +55,13 @@ class TransactionController extends Controller
             'type' => $request->get('type'),
             'category' => $request->get('category')
         ]);
+        $balance = User::where('id', '=', $userId)->limit(1);
+        if ($request->get('type') === 'Income') {
+            $balance->balance += $request->get('ammount');
+        } elseif ($request->get('type') === 'Expances') {
+            //$balance.balance -= $request->get('ammount');
+        };
+        $balance->save();
         $contact->save();
         return redirect('/transactions')->with('success', 'Contact saved!');
     }
