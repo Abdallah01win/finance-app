@@ -55,13 +55,12 @@ class TransactionController extends Controller
             'type' => $request->get('type'),
             'category' => $request->get('category')
         ]);
-        $balance = User::where('id', '=', $userId)->limit(1);
+        $calcBalance = intval($request->get('ammount')) ;
         if ($request->get('type') === 'Income') {
-            $balance->balance += $request->get('ammount');
-        } elseif ($request->get('type') === 'Expances') {
-            //$balance.balance -= $request->get('ammount');
-        };
-        $balance->save();
+            User::where('id', '=', $userId)->limit(1)->increment('balance', $calcBalance);
+        }else{
+            User::where('id', '=', $userId)->limit(1)->decrement('balance', $calcBalance);
+        }   
         $contact->save();
         return redirect('/transactions')->with('success', 'Contact saved!');
     }
