@@ -38,6 +38,9 @@ Route::get('/transactions/list', [TransactionController::class, 'index'])->middl
 Route::get('/categories', function () {
     return Inertia::render('Categories');
 })->middleware(['auth', 'verified'])->name('categories');
+Route::get('/categories/category', function () {
+    return Inertia::render('Category');
+})->middleware(['auth', 'verified'])->name('category');
 
 Route::post('/categories/add', [CategoryController::class, 'store'])->middleware(['auth', 'verified'])->name('categories/add');
 Route::post('/categories/edit', [CategoryController::class, 'edit'])->middleware(['auth', 'verified'])->name('categories/edit');

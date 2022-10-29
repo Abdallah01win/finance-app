@@ -60,9 +60,12 @@ export default {
                             <div>{{item.limit}}</div>
                         </div>
                     </div>
-                    <div class="flex justify-between items-center">
-                        <div>{{item.updated_at}}</div>
-                    </div>
+                    <div class="flex items-center gap-2">
+                            <div class="bg-gray-200 rounded-full p-2 grid" style="place-content: center;">
+                                <img src="../../../storage/assets/calendar.svg" alt="edit" class="w-5">
+                            </div>
+                            <div>{{item.updated_at.substring(0, item.updated_at.indexOf('T'))}}</div>
+                        </div>
                 </div>
             </div>
         </div>

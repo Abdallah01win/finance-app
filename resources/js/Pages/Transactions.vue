@@ -53,7 +53,7 @@ export default {
                 <div class="text-xl font-bold mb-3">Transactions</div>
                 <div class="flex gap-8 justify-between">
 
-                    <div class="w-[65%] bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                    <div class="w-[65%] bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 h-fit">
                         <div class="mb-2 font-semibold text-lg">Add New Transaction</div>
                         <form @submit.prevent="submit">
                             <div class="w-full">
@@ -97,11 +97,9 @@ export default {
                                 </div>
                                 <div class="mt-4 w-full">
                                     <InputLabel for="category" value="Category" />
-                                    <TextInput id="category" type="text"
-                                        class="mt-1 block w-full"
-                                        v-bind:disabled="form.type == ''"
-                                        v-model="form.category" required
-                                        autocomplete=""/>
+                                    <TextInput id="category" type="text" class="mt-1 block w-full"
+                                        v-bind:disabled="form.type == ''" v-model="form.category" required
+                                        autocomplete="" />
                                     <InputError class="mt-2" :message="form.errors.category" />
                                 </div>
                             </div>
@@ -144,11 +142,15 @@ export default {
                         <div class="flex flex-col mt-3 gap-y-2" v-for="(item, index) in transactions">
                             <div class="flex justify-between items-center border-b border-gray-100 p-2">
                                 <div class="flex flex-col ">
-                                    <span class="font-bold capitalize">{{item.title}}</span>
-                                    <span class="text-sm text-gray-600 capitalize">{{item.category}}</span>
+                                    <span class="font-bold capitalize">{{ item.title }}</span>
+                                    <span class="text-sm text-gray-600 capitalize">{{ item.category }}</span>
                                 </div>
-                                <div class="font-bold capitalize">${{item.ammount}}</div>
+                                <div class="font-bold capitalize">${{ item.ammount }}</div>
                             </div>
+                        </div>
+                        <div class="flex gap-2 items-center p-2 pb-0 mt-4 cursor-pointer">
+                            <div class="text-sm font-bold">View All</div>
+                            <img src="../../../storage/assets/arrow-right.svg" alt="" class="w-6" />
                         </div>
                     </div>
                 </div>
