@@ -6,6 +6,19 @@ const close = (id) => {
     const formHolder = document.getElementById(id);
     formHolder.classList.toggle('hidden');
 }
+
+const padTo2Digits = (num) => {
+  return num.toString().padStart(2, '0');
+}
+
+const formatDate = (date) => {
+  return [
+    date.getFullYear(),
+    padTo2Digits(date.getMonth() + 1),
+    padTo2Digits(date.getDate()),
+  ].join('-');
+}
+
 </script>
 <script>
 export default {
@@ -64,7 +77,7 @@ export default {
                             <div class="bg-gray-200 rounded-full p-2 grid" style="place-content: center;">
                                 <img src="../../../storage/assets/calendar.svg" alt="edit" class="w-5">
                             </div>
-                            <div>{{item.updated_at.substring(0, item.updated_at.indexOf('T'))}}</div>
+                            <div>{{new Date(formatDate(new Date(item.updated_at)))}}</div>
                         </div>
                 </div>
             </div>

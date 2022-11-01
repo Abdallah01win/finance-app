@@ -13,10 +13,13 @@ const form = useForm({
 
 const submit = () => {
     form.post(route('categories/add'), {
-        onFinish: () => form.reset('title', 'limit', 'type'),
+        onFinish: () => {
+            form.reset('title', 'limit', 'type')
+            close('formHolder')
+        },
     });
 };
-const close = (id)=>{
+const close = (id) => {
     const formHolder = document.getElementById(id);
     formHolder.classList.toggle('hidden');
 }
@@ -61,7 +64,7 @@ const close = (id)=>{
                 <div class="flex items-center justify-end mt-6">
 
                     <PrimaryButton type="button" class="ml-4" :class="{ 'opacity-25': form.processing }"
-                        :disabled="form.processing" @click="close('formHolder')">
+                        :disabled="form.processing">
                         Cancel
                     </PrimaryButton>
 
