@@ -42,7 +42,7 @@ export default {
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('dashboard')">
                                 <!-- <ApplicationLogo class="block h-9 w-auto" /> -->
-                                <div class="font-bold text-xl">
+                                <div class="font-bold text-3xl">
                                     <span class="text-myBlue">On</span>
                                     <span class="text-white">Point</span>
                                 </div>
@@ -59,12 +59,12 @@ export default {
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
                             <!-- Balance -->
-                            <div>
+                            <!-- <div>
                                 <span>Your Balance: </span>
                                 {{ balance }} DH
-                            </div>
+                            </div> -->
                             <!-- Settings Dropdown -->
-                            <div class="ml-3 relative">
+                            <!-- <div class="ml-3 relative">
                                 <Dropdown align="right" width="48">
                                     <template #trigger>
                                         <span class="inline-flex rounded-md">
@@ -88,6 +88,23 @@ export default {
                                         </DropdownLink>
                                     </template>
                                 </Dropdown>
+                            </div> -->
+                            <div class="flex items-center">
+                            <!-- Search -->
+                                <form class="flex items-center">
+                                    <input type="text" name="search" class="bg-myDark-100 rounded-lg text-white outline-none border-0 focus:outline-myBlue placeholder:font-light placeholder:text-base placeholder:text-[#808080] w-[350px]" placeholder="Search">
+                                    <button type="submit" class="w-6 translate-x-[-150%]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><title>Search</title><path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"/></svg>
+                                    </button>
+                                </form>
+                            <!-- end Search -->
+                            <!-- user -->
+                                <div class="p-2 bg-myDark-100 rounded-lg hover:text-white cursor-pointer">
+                                    <div class="w-6">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><title>Person</title><path d="M344 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M256 304c-87 0-175.3 48-191.64 138.6C62.39 453.52 68.57 464 80 464h352c11.44 0 17.62-10.48 15.65-21.4C431.3 352 343 304 256 304z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/></svg>
+                                    </div>
+                                </div>
+                            <!-- end user -->
                             </div>
                         </div>
 
