@@ -19,4 +19,5 @@
     <body class="font-sans antialiased">
         @inertia
     </body>
+    {{-- @vite('resources/js/DashLineChart.js') --}}
 </html>

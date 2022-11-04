@@ -35,6 +35,8 @@ Route::post('/transactions/add', [TransactionController::class, 'store'])->middl
 
 Route::get('/transactions/list', [TransactionController::class, 'index'])->middleware(['auth', 'verified'])->name('transactions/list');
 
+Route::get('/transactions/lineChart', [TransactionController::class, 'lineChart'])->middleware(['auth', 'verified'])->name('transactions/lineChart');
+
 Route::get('/categories', function () {
     return Inertia::render('Categories');
 })->middleware(['auth', 'verified'])->name('categories');

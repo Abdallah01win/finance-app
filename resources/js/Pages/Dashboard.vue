@@ -1,6 +1,75 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/inertia-vue3';
+import { onMounted } from 'vue';
+import Chart from 'chart.js/auto';
+
+onMounted(() => {
+    const ctx = document.getElementById('myChart').getContext('2d');
+    if (ctx) {
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            borderColor: '#181818ff',
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                family: 'Poppins',
+                                size: 14,
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            borderColor: '#181818ff',
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                family: 'Poppins',
+                                size: 14,
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false,
+                    }
+                }
+            }
+        });
+    }
+})
 </script>
 <script>
 import axios from 'axios';
@@ -37,6 +106,7 @@ export default {
                     </div>
                     <div>button</div>
                 </div>
+                <!-- General stats sec -->
                 <div class="grid grid-cols-3 gap-4">
                     <div class="bg-myDark-200 overflow-hidden rounded-lg border border-myDark-100">
                         <div class="p-6 hover:bg-myDark-100">
@@ -76,6 +146,32 @@ export default {
                     </div>
 
                 </div>
+                <!-- End General stats sec -->
+
+                <!-- Chart sec -->
+                <div class="rounded-lg bg-myDark-200 border-myDark-100 p-6">
+                    <div class="flex items-center justify-between">
+                        <div class="text-white text-2xl font-medium mb-6">Statistics</div>
+                        <div
+                            class="flex items-center text-sm py-2 px-3 bg-myDark-300 rounded-lg border border-myDark-100">
+                            <div class="flex items-center">
+                                <span class="w-5 h-5 bg-myBlue border border-myDark-100 mr-2 rounded-md"></span>
+                                <span>Income</span>
+                            </div>
+                            <div class="flex items-center border-x border-myDark-100 mx-3 px-3">
+                                <span class="w-5 h-5 bg-myPurpel border border-myDark-100 mr-2 rounded-md"></span>
+                                <span>Expances</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="w-5 h-5 bg-myYellow border border-myDark-100 mr-2 rounded-md"></span>
+                                <span>Investments</span>
+                            </div>
+                        </div>
+                    </div>
+                    <canvas id="myChart" height="250" class="w-full"></canvas>
+                </div>
+
+                <!-- End Chart Sec -->
                 <div class="mt-4">
                     <div class="py-4 flex items-center justify-between">
                         <div>
@@ -113,9 +209,15 @@ export default {
                                 <td class="pl-3 py-2">{{ item.ammount }}</td>
                                 <td class="pl-3 py-2">{{ item.category }}</td>
                                 <td class="pl-3 py-2 text-myDark-300 font-semibold text-sm">
-                                    <span class="bg-myGreen rounded-full px-2" v-if="item.type === 'Income'">{{ item.type }}</span>
-                                    <span class="bg-myRed rounded-full px-2" v-if="item.type === 'Expances'">{{ item.type }}</span>
-                                    <span class="bg-myBlue rounded-full px-2" v-if="item.type === 'Investments'">{{ item.type }}</span>
+                                    <span class="bg-myGreen rounded-full px-2" v-if="item.type === 'Income'">{{
+                                            item.type
+                                    }}</span>
+                                    <span class="bg-myRed rounded-full px-2" v-if="item.type === 'Expances'">{{
+                                            item.type
+                                    }}</span>
+                                    <span class="bg-myBlue rounded-full px-2" v-if="item.type === 'Investments'">{{
+                                            item.type
+                                    }}</span>
                                 </td>
                                 <td class="flex items-center gap-2 pl-3 py-2">
                                     <div class="cursor-pointer hover:text-white">
@@ -161,3 +263,11 @@ select {
     background-size: 1.3rem 1.3rem !important;
 }
 </style>
+
+
+/* Doughnut Chart data query */
+//SELECT SUM(ammount), type, created_at FROM `transactions` GROUP BY type;
+
+
+/* Line Chart data query */
+//SELECT SUM(ammount) as amount, type, substr(created_at, 1, 10) as date FROM `transactions` GROUP BY substr(created_at, 1, 10); 
