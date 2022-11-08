@@ -21,7 +21,7 @@ export default {
         return {
             expances: [],
             income: [],
-            investments: [],
+            savings: [],
             itemId: Number,
         }
     },
@@ -35,7 +35,7 @@ export default {
                     } else if (element.type === "Income") {
                         this.income.push(element);
                     } else {
-                        this.investments.push(element);
+                        this.savings.push(element);
                     }
                 });
             });
@@ -80,7 +80,7 @@ export default {
                 <div class="mb-6">
                     <h3 class="mb-2 font-semibold text-xl">Investment Categories</h3>
                     <div class="grid grid-cols-3 gap-8">
-                        <CategoryCard :data="investments" @itemId="getItemId"/>                  
+                        <CategoryCard :data="savings" @itemId="getItemId"/>                  
                     </div>
                 </div>
             </div>

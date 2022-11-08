@@ -74,7 +74,7 @@ const close = (id) => {
                                 v-model="form.type">
                                 <option value="Income">Income</option>
                                 <option value="Expances">Expances</option>
-                                <option value="Investments">Investments</option>
+                                <option value="Savings">Savings</option>
                             </select>
                             <InputError class="mt-2" :message="form.errors.type" />
                         </div>

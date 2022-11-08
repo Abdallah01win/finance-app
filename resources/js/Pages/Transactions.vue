@@ -79,7 +79,7 @@ export default {
                             <div class="border-b-2 border-black p-2 text-sm font-bold cursor-pointer">All</div>
                             <div class="p-2 text-sm font-bold cursor-pointer">Income</div>
                             <div class="p-2 text-sm font-bold cursor-pointer">Expances</div>
-                            <div class="p-2 text-sm font-bold cursor-pointer">Investments</div>
+                            <div class="p-2 text-sm font-bold cursor-pointer">Savings</div>
                         </div>
 
                         <div class="flex flex-col mt-3 gap-y-2" v-for="(item, index) in transactions">

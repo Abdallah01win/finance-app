@@ -18,7 +18,7 @@ class TransactionController extends Controller
     public function index()
     {
         //route should be a post one and send fillters through it then build the query with the set ones 
-        return Transaction::where('userId', '=', Auth::id())->orderBy('created_at', 'desc')->get();
+        return Transaction::where('userId', '=', Auth::id())->limit(10)->orderBy('created_at', 'desc')->get();
     }
 
     /**
@@ -114,7 +114,7 @@ class TransactionController extends Controller
     public function lineChart()
     {
         return Transaction::where('userId', '=', Auth::id())
-        ->groupByRaw('SUBSTRING(created_at, 1, 10)')
+        ->groupByRaw('SUBSTRING(created_at, 1, 10), type')
         ->orderBy('created_at','ASC')
         ->get(array( DB::raw('SUM(ammount) as amount'),
                      DB::raw('SUBSTRING(created_at, 1, 10) as date'),
