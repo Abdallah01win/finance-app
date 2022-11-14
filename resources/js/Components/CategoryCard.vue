@@ -7,18 +7,6 @@ const close = (id) => {
     formHolder.classList.toggle('hidden');
 }
 
-const padTo2Digits = (num) => {
-  return num.toString().padStart(2, '0');
-}
-
-const formatDate = (date) => {
-  return [
-    date.getFullYear(),
-    padTo2Digits(date.getMonth() + 1),
-    padTo2Digits(date.getDate()),
-  ].join('-');
-}
-
 </script>
 <script>
 export default {
@@ -28,17 +16,47 @@ export default {
         DropdownLink,
     },
     props: {
-        data: Array
+        data: Array,
+        type: String
+    },
+    methods: {
+        dateConvert(date) {
+            let newDate = new Date(date)
+            let myDate = {}
+            myDate.date = newDate.toString().substring(0, 10)
+            myDate.time = newDate.toString().substring(16, 24)
+            return myDate
+        },
+        calcPercent(total, fr) {
+            let myPercent = {}
+            let ret = Math.floor(((fr * 100) / total))
+            myPercent.ret = ret
+            myPercent.width = ret <= 100 ? `width: ${ret}%` : 'width: 100%'
+            return myPercent
+        }
     }
 };
 </script>
 <template>
     <div v-for="(item, index) in data">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg flex">
-            <div class="p-6 grow">
-                <div class="flex justify-between items-center mb-3">
-                    <div class=" font-semibold text-lg">{{item.title[0].toUpperCase() +
-                    item.title.slice(1)}}
+        <div class="bg-myDark-100 overflow-hidden sm:rounded-lg flex cursor-pointer">
+            <div class="px-6 py-4 grow">
+                <div class="flex justify-between items-center mb-3 text-white">
+                    <div class="flex gap-x-4 items-center">
+                        <div class=" font-semibold text-lg">{{ item.title[0].toUpperCase() +
+                                item.title.slice(1)
+                        }}
+                        </div>
+                        <span>
+                            <div class="text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center"
+                                :class="{
+                                    'bg-myBlue': type == 'savings',
+                                    'bg-myRed': type == 'expances',
+                                    'bg-myGreen': type == 'income',
+                                }">
+                                <div class="translate-y-[10%]">{{ calcPercent(item.limit, item.total).ret }}%</div>
+                            </div>
+                        </span>
                     </div>
                     <Dropdown align="right" width="48">
                         <template #trigger>
@@ -47,38 +65,32 @@ export default {
 
                         <template #content>
                             <DropdownLink :href="route('categories/edit')" method="post" as="button"
-                                :data="{id : item.id}">
+                                :data="{ id: item.id }">
                                 Edit
                             </DropdownLink>
                             <div as="button"
                                 class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out cursor-pointer"
-                                @click="()=>{ this.$emit('itemId', item.id); close('confirmDelete');}">
+                                @click="() => { this.$emit('itemId', item.id); close('confirmDelete'); }">
                                 Delete
                             </div>
                         </template>
                     </Dropdown>
                 </div>
-                <div class="flex flex-col gap-y-3">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <div class="bg-gray-200 rounded-full p-3 grid" style="place-content: center;">
-                                <img src="../../../storage/assets/edit.svg" alt="edit" class="w-4">
-                            </div>
-                            <div>{{item.total}}</div>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="bg-gray-200 rounded-full p-2 grid" style="place-content: center;">
-                                <img src="../../../storage/assets/target.svg" alt="edit" class="w-5">
-                            </div>
-                            <div>{{item.limit}}</div>
-                        </div>
+                <div>
+                    <div class="mb-2 w-full h-4 bg-myDark-300 rounded-full">
+                        <div class="h-4 rounded-full" :style="calcPercent(item.limit, item.total).width" :class="{
+                            'bg-myBlue': type == 'savings',
+                            'bg-myRed': type == 'expances',
+                            'bg-myGreen': type == 'income',
+                        }"></div>
                     </div>
-                    <div class="flex items-center gap-2">
-                            <div class="bg-gray-200 rounded-full p-2 grid" style="place-content: center;">
-                                <img src="../../../storage/assets/calendar.svg" alt="edit" class="w-5">
-                            </div>
-                            <div>{{new Date(formatDate(new Date(item.updated_at)))}}</div>
-                        </div>
+                    <div class="flex items-center justify-between">
+                        <span>{{ item.total }} USD</span>
+                        <span>{{ item.limit }} USD</span>
+                    </div>
+                </div>
+                <div class="mt-3 text-sm font-semibold">
+                    <div>{{ dateConvert(item.updated_at).date }}</div>
                 </div>
             </div>
         </div>
