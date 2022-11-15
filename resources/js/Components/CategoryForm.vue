@@ -26,10 +26,10 @@ const close = (id) => {
 </script>
 
 <template>
-    <div class="bg-gray-700/50 absolute top-0 left-0 w-full h-screen z-10 hidden" id="formHolder">
-        <div class=" bg-white overflow-hidden shadow-sm sm:rounded-lg px-10 py-8 w-[40%] mx-auto translate-y-[50%]">
+    <div @click.self="close('formHolder')" class="bg-myDark-300/90 absolute top-0 left-0 w-full h-screen z-10 hidden" id="formHolder">
+        <div class=" bg-myDark-100 overflow-hidden shadow-sm sm:rounded-lg px-10 py-8 w-[50%] mx-auto translate-y-[50%]">
             <div class="flex justify-between items-center mb-2">
-                <h3 class="text-xl font-semibold">Creat a New Category</h3>
+                <h3 class="text-2xl text-white">Creat a New Category</h3>
                 <button class="p-2 bg-gray-200 rounded-full" @click="close('formHolder')">
                     <img src="../../../storage/assets/close.svg" alt="" class="w-6">
                 </button>
@@ -52,7 +52,7 @@ const close = (id) => {
                 <div class="mt-4 w-full">
                     <InputLabel for="type" value="Type" />
                     <select name="type" id="type"
-                        class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                        class="mt-1 block w-full border-none focus:border-none focus:ring focus:ring-myBlue rounded-md bg-myDark-200 text-white"
                         v-model="form.type">
                         <option value="Income">Income</option>
                         <option value="Expances">Expances</option>
