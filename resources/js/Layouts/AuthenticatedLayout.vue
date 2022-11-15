@@ -58,11 +58,7 @@ export default {
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
-                            <!-- Balance -->
-                            <!-- <div>
-                                <span>Your Balance: </span>
-                                {{ balance }} DH
-                            </div> -->
+                            
                             <!-- Settings Dropdown -->
                             <!-- <div class="ml-3 relative">
                                 <Dropdown align="right" width="48">
@@ -98,6 +94,15 @@ export default {
                                     </button>
                                 </form>
                             <!-- end Search -->
+                            <!-- Balance -->
+                            <div class="mr-6">
+                                <span>Balance: </span>
+                                <span class="font-semibold" :class="{'text-myGreen' : balance > 0,
+                                    'text-myRed' : balance <= 0}">
+                                {{ balance }} USD
+                                </span>
+                            </div>
+                            <!-- End Balance -->
                             <!-- user -->
                                 <div class="p-2 bg-myDark-100 rounded-lg hover:text-white cursor-pointer">
                                     <div class="w-6">

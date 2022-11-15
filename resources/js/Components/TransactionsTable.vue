@@ -24,10 +24,10 @@ export default {
 }
 </script>
 <template>
-    <div class="">
-        <div class="py-4 flex items-center justify-between">
+    <div class="bg-myDark-200 rounded-lg overflow-hidden">
+        <div class="py-4 px-8 flex items-center justify-between">
             <div>
-                <div class="text-white text-3xl font-medium">Transactions</div>
+                <div class="text-xl font-medium" :class="{'text-2xl text-white' : $page.component == 'Dashboard' }">Transactions</div>
             </div>
             <form action="#">
                 <select name="sortTransactions" id="sortTransactions"
@@ -41,7 +41,7 @@ export default {
         </div>
 
 
-        <table class="w-full bg-myDark-200 rounded-lg overflow-hidden">
+        <table class="w-full">
             <thead>
                 <tr class="border-b border-myDark-100">
                     <td class="pl-8 py-4 text-white capitalize">#</td>

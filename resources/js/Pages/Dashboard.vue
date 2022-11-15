@@ -147,6 +147,7 @@ export default {
             let myDate = {}
             myDate.date = newDate.toString().substring(0, 10)
             myDate.time = newDate.toString().substring(16, 24)
+            
             return myDate
         }
     },
