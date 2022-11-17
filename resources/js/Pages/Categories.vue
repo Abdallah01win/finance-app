@@ -27,7 +27,7 @@ export default {
     },
     methods: {
         loadCategories() {
-            axios.get('categories/list').then((response) => {
+           axios.get('categories/list').then((response) => {
                 let categories = response.data
                 categories.forEach(element => {
                     if (element.type === "Expances") {
@@ -52,7 +52,7 @@ export default {
 </script> 
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="Categories" />
 
     <AuthenticatedLayout>
 
@@ -74,23 +74,26 @@ export default {
                         </svg>
                     </button>
                 </div>
-                <div class="mb-6  bg-myDark-200 py-6 px-6 rounded-lg">
+                <div v-if="expances.length !== 0" class="mb-6  bg-myDark-200 py-6 px-6 rounded-lg">
                     <h3 class="mb-3 text-xl">Expances</h3>
-                    <div class="grid grid-cols-3 gap-6">
+                    <div class="grid grid-cols-3 gap-6 ">
                         <CategoryCard :type="'expances'" :data="expances" @itemId="getItemId" />
                     </div>
                 </div>
-                <div class="mb-6 bg-myDark-200 py-6 px-6 rounded-lg">
+                <div v-if="income.length !== 0" class="mb-6 bg-myDark-200 py-6 px-6 rounded-lg">
                     <h3 class="mb-3 text-xl">Income</h3>
                     <div class="grid grid-cols-3 gap-6">
                         <CategoryCard :type="'income'" :data="income" @itemId="getItemId" />
                     </div>
                 </div>
-                <div class="mb-6 bg-myDark-200 py-6 px-6 rounded-lg">
-                    <h3 class="mb-3 text-xl">Investment</h3>
+                <div v-if="savings.length !== 0" class="mb-6 bg-myDark-200 py-6 px-6 rounded-lg">
+                    <h3 class="mb-3 text-xl">Savings</h3>
                     <div class="grid grid-cols-3 gap-6">
                         <CategoryCard :type="'savings'" :data="savings" @itemId="getItemId" />
                     </div>
+                </div>
+                <div v-if="!income && !expances && !savings" class="text-xl text-center mt-8">
+                    No Categories to display for now!
                 </div>
             </div>
         </div>

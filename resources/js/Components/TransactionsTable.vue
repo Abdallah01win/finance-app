@@ -1,10 +1,14 @@
 <script>
 import axios from 'axios';
+import { Link } from '@inertiajs/inertia-vue3';
 export default {
     data() {
         return {
             transactions: [],
         }
+    },
+    components: {
+        Link,
     },
     methods: {
         loadTransactions() {
@@ -27,7 +31,8 @@ export default {
     <div class="bg-myDark-200 rounded-lg overflow-hidden">
         <div class="py-4 px-8 flex items-center justify-between">
             <div>
-                <div class="text-xl font-medium" :class="{'text-2xl text-white' : $page.component == 'Dashboard' }">Transactions</div>
+                <div class="text-xl font-medium" :class="{ 'text-2xl text-white': $page.component == 'Dashboard' }">
+                    Transactions</div>
             </div>
             <form action="#">
                 <select name="sortTransactions" id="sortTransactions"
@@ -105,25 +110,30 @@ export default {
                     </td>
                 </tr>
             </tbody>
-            <!-- <tfoot class="relative">
-                            <a :href="route('transactions')" class="absolute top-0 left-0 block text-white">
-                            <tr class="flex gap-3 py-3 pl-8">
-                                <span>
-                                    View More
-                                </span>
-                                <span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                                        viewBox="0 0 256 256">
-                                        <rect width="256" height="256" fill="none"></rect>
-                                        <line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor"
-                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
-                                        <polyline points="144 56 216 128 144 200" fill="none" stroke="currentColor"
-                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline>
-                                    </svg>
-                                </span>
-                            </tr>
-                            </a>
-                        </tfoot> -->
         </table>
+        <div class="flex justify-between items-start px-8 py-3">
+            <div>
+                <Link :href="route('transactions')" class=" text-white" v-if="$page.component !== 'Transactions'">
+                <tr class="flex gap-3">
+                    <span>
+                        View More
+                    </span>
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                            viewBox="0 0 256 256">
+                            <rect width="256" height="256" fill="none"></rect>
+                            <line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor"
+                                stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                            <polyline points="144 56 216 128 144 200" fill="none" stroke="currentColor"
+                                stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline>
+                        </svg>
+                    </span>
+                </tr>
+                </Link>
+            </div>
+            <div>
+                Pagination
+            </div>
+        </div>
     </div>
 </template>
