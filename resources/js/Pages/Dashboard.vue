@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/inertia-vue3';
-import  TransactionsTable from "@/Components/TransactionsTable.vue";
+import TransactionsTable from "@/Components/TransactionsTable.vue";
 import { onMounted } from 'vue';
 import Chart from 'chart.js/auto';
 
@@ -147,7 +147,7 @@ export default {
             let myDate = {}
             myDate.date = newDate.toString().substring(0, 10)
             myDate.time = newDate.toString().substring(16, 24)
-            
+
             return myDate
         }
     },
@@ -162,189 +162,180 @@ export default {
     <AuthenticatedLayout>
 
         <div class="">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="pb-5 flex items-center justify-between">
-                    <div>
-                        <div class="mb-1">Wellcome back!</div>
-                        <div class="text-white text-3xl font-medium">{{ $page.props.auth.user.name }}'s Dashboard</div>
-                    </div>
-                    <div>button</div>
-                </div>
-                <!-- General stats sec -->
-                <div class="grid grid-cols-3 gap-6">
-                    <div class="bg-myDark-200 overflow-hidden rounded-lg border border-myDark-100">
-                        <div class="p-6 hover:bg-myDark-100">
-                            <div>Income</div>
-                            <div class="flex items-center gap-2 text-3xl text-white mt-1 font-medium">
-                                <span>253k</span>
-                                <span class="uppercase ">USD</span>
-                                <!-- lable component -->
-                                <div
-                                    class="bg-myGreen text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center">
-                                    <div class="translate-y-[10%]">30%</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-myDark-200 hover:bg-myDark-100 overflow-hidden rounded-lg border border-myDark-100">
-                        <div class="p-6 hover:bg-myDark-100">
-                            <div>Savings</div>
-                            <div class="flex items-center gap-2 text-3xl text-white mt-1 font-medium">
-                                <span>253k</span>
-                                <span class="uppercase ">USD</span>
-                                <!-- lable component -->
-                                <div
-                                    class="bg-myGreen text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center">
-                                    <div class="translate-y-[10%]">30%</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-myDark-200 hover:bg-myDark-100 overflow-hidden rounded-lg border border-myDark-100">
-                        <div class="p-6 hover:bg-myDark-100">
-                            <div>Expances</div>
-                            <div class="flex items-center gap-2 text-3xl text-white mt-1 font-medium">
-                                <span>253k</span>
-                                <span class="uppercase ">USD</span>
-                                <!-- lable component -->
-                                <div
-                                    class="bg-myRed text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center">
-                                    <div class="translate-y-[10%]">30%</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <!-- End General stats sec -->
-
-                <!-- Charts section -->
-                <div class="w-full grid grid-cols-[3fr,1.3fr] gap-6 my-6">
-                    <div class="rounded-lg bg-myDark-200 border border-myDark-100 p-6">
-                        <div class="flex items-center justify-between mb-6">
-                            <div class="text-white text-2xl font-medium">Statistics</div>
+            <!-- General stats sec -->
+            <div class="grid grid-cols-3 gap-6">
+                <div class="bg-myDark-200 overflow-hidden rounded-lg border border-myDark-100">
+                    <div class="p-6 hover:bg-myDark-100">
+                        <div>Income</div>
+                        <div class="flex items-center gap-2 text-3xl text-white mt-1 font-medium">
+                            <span>253k</span>
+                            <span class="uppercase ">USD</span>
+                            <!-- lable component -->
                             <div
-                                class="flex items-center text-sm py-2 px-3 bg-myDark-300 rounded-lg border border-myDark-100">
-                                <div class="flex items-center">
-                                    <span class="w-5 h-5 bg-myGreen border border-myDark-100 mr-2 rounded-md"></span>
-                                    <span>Income</span>
-                                </div>
-                                <div class="flex items-center border-x border-myDark-100 mx-3 px-3">
-                                    <span class="w-5 h-5 bg-myRed border border-myDark-100 mr-2 rounded-md"></span>
-                                    <span>Expances</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <span class="w-5 h-5 bg-myBlue border border-myDark-100 mr-2 rounded-md"></span>
-                                    <span>Savings</span>
-                                </div>
+                                class="bg-myGreen text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center">
+                                <div class="translate-y-[10%]">30%</div>
                             </div>
-                        </div>
-                        <canvas id="myChart" height="250" class="w-full"></canvas>
-                    </div>
-                    <!-- Statistics -->
-                    <div class="rounded-lg bg-myDark-200 p-6 border border-myDark-100">
-                        <div class="flex items-center justify-between mb-6">
-                            <div class="text-white text-2xl font-medium">Analytics</div>
-                            <Link :href="route('analytics')">
-                            <div class="flex gap-1 py-3 text-xs">
-                                <span>
-                                    View More
-                                </span>
-                                <span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
-                                        viewBox="0 0 256 256">
-                                        <rect width="256" height="256" fill="none"></rect>
-                                        <line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor"
-                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
-                                        <polyline points="144 56 216 128 144 200" fill="none" stroke="currentColor"
-                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline>
-                                    </svg>
-                                </span>
-                            </div>
-                            </Link>
-                        </div>
-                        <div class="flex flex-col gap-y-4 text-sm">
-                            <div v-if="this.incomeTarget">
-                                <div class="flex items-center justify-between mb-2">
-                                    <span>
-                                        Income Target
-                                    </span>
-                                    <span>
-                                        <div
-                                            class="bg-myGreen text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center">
-                                            <div class="translate-y-[10%]">30%</div>
-                                        </div>
-                                    </span>
-                                </div>
-                                <div class="mb-2 w-full h-4 bg-myDark-100 rounded-full">
-                                    <div class="h-4 bg-myGreen rounded-full" style="width: 45%"></div>
-                                </div>
-                                <div class="flex items-center justify-between">
-                                    <span>2K USD</span>
-                                    <span>4K USD</span>
-                                </div>
-                            </div>
-                            <div v-else class="text-center text-white">No Analytics for now. Set your Targets in <span class="underline">
-                                    <Link :href="route('settings')">Settings.</Link>
-                                </span>.</div>
-                            <div v-if="this.expancesTarget">
-                                <div class="flex items-center justify-between mb-2">
-                                    <span>
-                                        Expances Target
-                                    </span>
-                                    <span>
-                                        <div
-                                            class="bg-myGreen text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center">
-                                            <div class="translate-y-[10%]">20%</div>
-                                        </div>
-                                    </span>
-                                </div>
-                                <div class="mb-2 w-full h-4 bg-myDark-100 rounded-full">
-                                    <div class="h-4 bg-myRed rounded-full" style="width: 20%"></div>
-                                </div>
-                                <div class="flex items-center justify-between">
-                                    <span>2K USD</span>
-                                    <span>4K USD</span>
-                                </div>
-                            </div>
-                            <div v-if="(this.expancesTarget != true) && (this.incomeTarget == true)"
-                                class="text-center text-white">Set your Targets in <span class="underline">
-                                    <Link :href="route('settings')">Settings.</Link>
-                                </span></div>
-                            <div v-if="this.savingsTarget">
-                                <div class="flex items-center justify-between mb-2">
-                                    <span>
-                                        Savings Target
-                                    </span>
-                                    <span>
-                                        <div
-                                            class="bg-myGreen text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center">
-                                            <div class="translate-y-[10%]">80%</div>
-                                        </div>
-                                    </span>
-                                </div>
-                                <div class="mb-2 w-full h-4 bg-myDark-100 rounded-full">
-                                    <div class="h-4 bg-myBlue rounded-full" style="width: 80%"></div>
-                                </div>
-                                <div class="flex items-center justify-between">
-                                    <span>2K USD</span>
-                                    <span>4K USD</span>
-                                </div>
-                            </div>
-                            <div v-if="(this.savingsTarget != true) && (this.incomeTarget == true) && (this.expancesTarget == true)"
-                                class="text-center text-white">Set Savings Target in <span class="underline">
-                                    <Link :href="route('settings')">Settings.</Link>
-                                </span> </div>
                         </div>
                     </div>
-
                 </div>
-                <!-- End Chart Sec -->
-                <!-- Transactions Table -->
-                <TransactionsTable />
-                <!-- End Transactions Table -->
-                
+                <div class="bg-myDark-200 hover:bg-myDark-100 overflow-hidden rounded-lg border border-myDark-100">
+                    <div class="p-6 hover:bg-myDark-100">
+                        <div>Savings</div>
+                        <div class="flex items-center gap-2 text-3xl text-white mt-1 font-medium">
+                            <span>253k</span>
+                            <span class="uppercase ">USD</span>
+                            <!-- lable component -->
+                            <div
+                                class="bg-myGreen text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center">
+                                <div class="translate-y-[10%]">30%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-myDark-200 hover:bg-myDark-100 overflow-hidden rounded-lg border border-myDark-100">
+                    <div class="p-6 hover:bg-myDark-100">
+                        <div>Expances</div>
+                        <div class="flex items-center gap-2 text-3xl text-white mt-1 font-medium">
+                            <span>253k</span>
+                            <span class="uppercase ">USD</span>
+                            <!-- lable component -->
+                            <div
+                                class="bg-myRed text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center">
+                                <div class="translate-y-[10%]">30%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+            <!-- End General stats sec -->
+
+            <!-- Charts section -->
+            <div class="w-full grid grid-cols-[3fr,1.3fr] gap-6 my-6">
+                <div class="rounded-lg bg-myDark-200 border border-myDark-100 p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="text-white text-2xl font-medium">Statistics</div>
+                        <div
+                            class="flex items-center text-sm py-2 px-3 bg-myDark-300 rounded-lg border border-myDark-100">
+                            <div class="flex items-center">
+                                <span class="w-5 h-5 bg-myGreen border border-myDark-100 mr-2 rounded-md"></span>
+                                <span>Income</span>
+                            </div>
+                            <div class="flex items-center border-x border-myDark-100 mx-3 px-3">
+                                <span class="w-5 h-5 bg-myRed border border-myDark-100 mr-2 rounded-md"></span>
+                                <span>Expances</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="w-5 h-5 bg-myBlue border border-myDark-100 mr-2 rounded-md"></span>
+                                <span>Savings</span>
+                            </div>
+                        </div>
+                    </div>
+                    <canvas id="myChart" height="250" class="w-full"></canvas>
+                </div>
+                <!-- Statistics -->
+                <div class="rounded-lg bg-myDark-200 p-6 border border-myDark-100">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="text-white text-2xl font-medium">Analytics</div>
+                        <Link :href="route('analytics')">
+                        <div class="flex gap-1 py-3 text-xs">
+                            <span>
+                                View More
+                            </span>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
+                                    viewBox="0 0 256 256">
+                                    <rect width="256" height="256" fill="none"></rect>
+                                    <line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor"
+                                        stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
+                                    <polyline points="144 56 216 128 144 200" fill="none" stroke="currentColor"
+                                        stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline>
+                                </svg>
+                            </span>
+                        </div>
+                        </Link>
+                    </div>
+                    <div class="flex flex-col gap-y-4 text-sm">
+                        <div v-if="this.incomeTarget">
+                            <div class="flex items-center justify-between mb-2">
+                                <span>
+                                    Income Target
+                                </span>
+                                <span>
+                                    <div
+                                        class="bg-myGreen text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center">
+                                        <div class="translate-y-[10%]">30%</div>
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="mb-2 w-full h-4 bg-myDark-100 rounded-full">
+                                <div class="h-4 bg-myGreen rounded-full" style="width: 45%"></div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span>2K USD</span>
+                                <span>4K USD</span>
+                            </div>
+                        </div>
+                        <div v-else class="text-center text-white">No Analytics for now. Set your Targets in <span
+                                class="underline">
+                                <Link :href="route('settings')">Settings.</Link>
+                            </span>.</div>
+                        <div v-if="this.expancesTarget">
+                            <div class="flex items-center justify-between mb-2">
+                                <span>
+                                    Expances Target
+                                </span>
+                                <span>
+                                    <div
+                                        class="bg-myGreen text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center">
+                                        <div class="translate-y-[10%]">20%</div>
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="mb-2 w-full h-4 bg-myDark-100 rounded-full">
+                                <div class="h-4 bg-myRed rounded-full" style="width: 20%"></div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span>2K USD</span>
+                                <span>4K USD</span>
+                            </div>
+                        </div>
+                        <div v-if="(this.expancesTarget != true) && (this.incomeTarget == true)"
+                            class="text-center text-white">Set your Targets in <span class="underline">
+                                <Link :href="route('settings')">Settings.</Link>
+                            </span></div>
+                        <div v-if="this.savingsTarget">
+                            <div class="flex items-center justify-between mb-2">
+                                <span>
+                                    Savings Target
+                                </span>
+                                <span>
+                                    <div
+                                        class="bg-myGreen text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center">
+                                        <div class="translate-y-[10%]">80%</div>
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="mb-2 w-full h-4 bg-myDark-100 rounded-full">
+                                <div class="h-4 bg-myBlue rounded-full" style="width: 80%"></div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span>2K USD</span>
+                                <span>4K USD</span>
+                            </div>
+                        </div>
+                        <div v-if="(this.savingsTarget != true) && (this.incomeTarget == true) && (this.expancesTarget == true)"
+                            class="text-center text-white">Set Savings Target in <span class="underline">
+                                <Link :href="route('settings')">Settings.</Link>
+                            </span> </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- End Chart Sec -->
+            <!-- Transactions Table -->
+            <TransactionsTable />
+            <!-- End Transactions Table -->
         </div>
     </AuthenticatedLayout>
 </template>

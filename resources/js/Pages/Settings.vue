@@ -27,15 +27,7 @@ export default {
     <Head title="Settings" />
 
     <AuthenticatedLayout>
-        <div class="sm:px-6 lg:px-8">
-
-            <div class="pb-5 flex items-center justify-between">
-                <div>
-                    <div class="mb-1">Wellcome back!</div>
-                    <div class="text-white text-3xl font-medium">{{ $page.props.auth.user.name }}'s Settings</div>
-                </div>
-                <!-- <PrimaryButton class="bg-myBlue/100 font-bold font-poppins">Save</PrimaryButton> -->
-            </div>
+        <div>
 
             <!-- Settings -->
             <div class="w-full grid grid-cols-[3fr,1.3fr] gap-6 my-6">
@@ -45,7 +37,8 @@ export default {
                         <div class="text-xl font-medium text-white">Personal Details</div>
                         <div>
                             <PrimaryButton @click="this.isEditable = !isEditable"
-                                class="bg-myBlue/100 font-bold font-poppins pt-2 pb-2">{{ isEditable ? 'Save' : 'Edit' }}
+                                class="bg-myBlue/100 font-bold font-poppins pt-2 pb-2">{{ isEditable ? 'Save' : 'Edit'
+                                }}
                             </PrimaryButton>
                         </div>
                     </div>
@@ -68,8 +61,8 @@ export default {
                         <div class="w-full mt-4">
                             <InputLabel for="Email" value="Email" />
                             <TextInput id="Email" type="email" class="mt-1 block w-full bg-myDark-300/100"
-                                v-model="form.Email" required autofocus :value="$page.props.auth.user.email"
-                                disabled autocomplete="" />
+                                v-model="form.Email" required autofocus :value="$page.props.auth.user.email" disabled
+                                autocomplete="" />
                             <InputError class="mt-2" :message="form.errors.Email" />
                         </div>
 
@@ -102,14 +95,19 @@ export default {
                             </div>
                         </div>
                     </form>
-                        <div class="text-xl font-medium mt-4 mb-2 text-white">Danger Zone</div>
-                        <p class="mb-4 w-[85%]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora, tempore! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur, quam.</p>
-                        <div class="flex items-center gap-x-6">
-                        <PrimaryButton class="bg-myRed/100 text-myDark-200 pt-2 pb-2 font-semibold hover:border hover:border-myRed hover:text-myRed hover:bg-myDark-300/100">Delete My Account</PrimaryButton>
+                    <div class="text-xl font-medium mt-4 mb-2 text-white">Danger Zone</div>
+                    <p class="mb-4 w-[85%]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora, tempore!
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur, quam.</p>
+                    <div class="flex items-center gap-x-6">
+                        <PrimaryButton
+                            class="bg-myRed/100 text-myDark-200 pt-2 pb-2 font-semibold hover:border hover:border-myRed hover:text-myRed hover:bg-myDark-300/100">
+                            Delete My Account</PrimaryButton>
 
-                        <PrimaryButton class="text-myRed bg-myDark-300/100 pt-2 pb-2 font-semibold border border-myRed hover:text-myDark-300/100 hover:bg-myRed">Reset My Data</PrimaryButton>
-                            
-                        </div>
+                        <PrimaryButton
+                            class="text-myRed bg-myDark-300/100 pt-2 pb-2 font-semibold border border-myRed hover:text-myDark-300/100 hover:bg-myRed">
+                            Reset My Data</PrimaryButton>
+
+                    </div>
 
                 </div>
                 <!-- End settings sec -->
