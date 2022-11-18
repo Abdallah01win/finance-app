@@ -48,7 +48,7 @@ export default {
     <Head title="Transactions" />
     <AuthenticatedLayout>
 
-        <div class="py-12 mx-8">
+        <div class="mx-8">
             <div class="flex justify-between items-center mb-4">
                 <h1 class="text-white text-3xl font-medium ">{{ $page.props.auth.user.name }}'s Transactions</h1>
                 <button

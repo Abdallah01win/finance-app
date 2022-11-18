@@ -31,7 +31,7 @@ export default {
 </script>
 
 <template>
-    <div>
+    <div class="">
         <div class="min-h-screen bg-myDark-300 text-[#808080]">
             <nav class="bg-myDark-200">
                 <!-- Primary Navigation Menu -->
@@ -274,7 +274,7 @@ export default {
                         </li>
                     </ul>
                 </div>
-                <div class="w-full">
+                <div class="w-full py-12 overflow-y-scroll h-[91.5vh]">
                     <slot />
                 </div>
             </main>

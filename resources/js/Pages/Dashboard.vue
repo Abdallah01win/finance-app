@@ -159,10 +159,9 @@ export default {
 <template>
 
     <Head title="Dashboard" />
-
     <AuthenticatedLayout>
 
-        <div class="py-12 overflow-y-scroll h-[91.5vh]">
+        <div class="">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="pb-5 flex items-center justify-between">
                     <div>
@@ -219,7 +218,7 @@ export default {
                 </div>
                 <!-- End General stats sec -->
 
-                <!-- Chart section -->
+                <!-- Charts section -->
                 <div class="w-full grid grid-cols-[3fr,1.3fr] gap-6 my-6">
                     <div class="rounded-lg bg-myDark-200 border border-myDark-100 p-6">
                         <div class="flex items-center justify-between mb-6">
