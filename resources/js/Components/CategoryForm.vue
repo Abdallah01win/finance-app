@@ -63,8 +63,7 @@ const close = (id) => {
 
                 <div class="flex items-center justify-end mt-6">
 
-                    <PrimaryButton type="button" class="ml-4" :class="{ 'opacity-25': form.processing }"
-                        :disabled="form.processing">
+                    <PrimaryButton type="button" class="ml-4" @click.prevent="close('formHolder')">
                         Cancel
                     </PrimaryButton>
 

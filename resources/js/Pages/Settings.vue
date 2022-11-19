@@ -37,7 +37,8 @@ export default {
                         <div class="text-xl font-medium text-white">Personal Details</div>
                         <div>
                             <PrimaryButton @click="this.isEditable = !isEditable"
-                                class="bg-myBlue/100 font-bold font-poppins pt-2 pb-2">{{ isEditable ? 'Save' : 'Edit'
+                                class="bg-myBlue/100 font-poppins pt-2 pb-2 hover:border hover:border-myDark-100/100 hover:bg-myDark-300/100 font-semibold">
+                                {{ isEditable ? 'Save' : 'Edit'
                                 }}
                             </PrimaryButton>
                         </div>
@@ -96,8 +97,8 @@ export default {
                         </div>
                     </form>
                     <div class="text-xl font-medium mt-4 mb-2 text-white">Danger Zone</div>
-                    <p class="mb-4 w-[85%]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora, tempore!
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur, quam.</p>
+                    <p class="mb-4 w-[85%]">Deleting your OnPoint account or reseting your data will resault in the lose
+                        of all of your Transactions, Categories, and Settings!</p>
                     <div class="flex items-center gap-x-6">
                         <PrimaryButton
                             class="bg-myRed/100 text-myDark-200 pt-2 pb-2 font-semibold hover:border hover:border-myRed hover:text-myRed hover:bg-myDark-300/100">
@@ -112,9 +113,94 @@ export default {
                 </div>
                 <!-- End settings sec -->
                 <!-- Profile sec -->
-                <div class="rounded-lg bg-myDark-200 border border-myDark-100 p-6">
-                    <div class="text-xl font-medium text-white">Profile</div>
+                <div class="rounded-lg bg-myDark-200 border border-myDark-100 p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="text-xl font-medium text-white">Profile</div>
+                        <!-- user -->
+                        <div class="mt-2 mb-4">
+                            <div class="flex items-center gap-x-4">
+                                <div>
+                                    <div class="p-2 bg-myDark-100 rounded-lg hover:text-white cursor-pointer">
+                                        <div class="w-10">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="ionicon"
+                                                viewBox="0 0 512 512">
+                                                <title>Person</title>
+                                                <path
+                                                    d="M344 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z"
+                                                    fill="none" stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="32" />
+                                                <path
+                                                    d="M256 304c-87 0-175.3 48-191.64 138.6C62.39 453.52 68.57 464 80 464h352c11.44 0 17.62-10.48 15.65-21.4C431.3 352 343 304 256 304z"
+                                                    fill="none" stroke="currentColor" stroke-miterlimit="10"
+                                                    stroke-width="32" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <!-- end user -->
+                                </div>
+                                <div class="flex flex-col justify-between">
+                                    <div class="text-white">
+                                        {{ $page.props.auth.user.name }}
+                                    </div>
+                                    <div class="text-sm">
+                                        {{ $page.props.auth.user.email }}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Image Upload -->
+                            <div
+                                class="border-4 border-dashed border-myDark-100 py-8 px-4 mt-4 text-center items-center flex flex-col gap-y-2 text-sm">
+                                <div class="w-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                                        <title>Cloud Upload</title>
+                                        <path
+                                            d="M320 367.79h76c55 0 100-29.21 100-83.6s-53-81.47-96-83.6c-8.89-85.06-71-136.8-144-136.8-69 0-113.44 45.79-128 91.2-60 5.7-112 43.88-112 106.4s54 106.4 120 106.4h56"
+                                            fill="none" stroke="currentColor" stroke-linecap="round"
+                                            stroke-linejoin="round" stroke-width="32" />
+                                        <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                            stroke-linejoin="round" stroke-width="32"
+                                            d="M320 255.79l-64-64-64 64M256 448.21V207.79" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <span class="text-myBlue cursor-pointer hover:underline">Click Here</span> drag and
+                                    drop
+                                    to Upload your profile picture.
+                                </div>
+                            </div>
 
+                        </div>
+                        <!-- End user -->
+                        
+                        <!-- Preferances -->
+                        <div class="text-xl font-medium text-white">Preferances</div>
+                        <div class="mt-2 flex flex-col gap-y-2">
+                            <div>
+                                <InputLabel for="Currancy" value="Currancy" />
+                                <select v-bind:disabled="!isEditable" name="Currancy" id="Currancy"
+                                    class="bg-myDark-300 rounded-lg text-white outline-none border border-myDark-100 focus:outline-myBlue w-full mt-1">
+                                    <option value="">USD</option>
+                                    <option value="">MDH</option>
+                                    <option value="">EU</option>
+                                </select>
+                                <InputError class="mt-2" :message="form.errors.Currancy" />
+                            </div>
+                            <div>
+                                <InputLabel for="Language" value="Language" />
+                                <select v-bind:disabled="!isEditable" name="Language" id="Language"
+                                    class="bg-myDark-300 rounded-lg text-white outline-none border border-myDark-100 focus:outline-myBlue w-full mt-1">
+                                    <option value="">English</option>
+                                    <option value="">French</option>
+                                    <option value="">Arabic</option>
+                                </select>
+                                <InputError class="mt-2" :message="form.errors.Currancy" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Preferances -->
+                    <p class="text-xs mt-auto">
+                        Note: Changing the currancy will NOT convert previoussly entered amounts.
+                    </p>
                 </div>
                 <!-- end Profile sec -->
             </div>

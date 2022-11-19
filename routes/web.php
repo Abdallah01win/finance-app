@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CategoryController;
+use App\Models\User;
 use Inertia\Inertia;
 
 /*
@@ -27,36 +28,48 @@ Route::get('/', function () {
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/transactions', function () {
-    return Inertia::render('Transactions');
-})->middleware(['auth', 'verified'])->name('transactions');
+/** Transactions Routes */
+Route::controller(TransactionController::class)->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/transactions', function (){
+        return Inertia::render('Transactions');
+    })->name('transactions');
+    Route::get('/transactions/list', 'index')->name('transactions/list');
+    Route::post('/transactions/add', 'store')->name('transactions/add');
+    Route::get('/transactions/lineChart', 'lineChart')->name('transactions/lineChart');
+});
 
-Route::post('/transactions/add', [TransactionController::class, 'store'])->middleware(['auth', 'verified'])->name('transactions/add');
+/** Categories Routes */
+Route::controller(CategoryController::class)->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/categories', function (){
+        return Inertia::render('Categories');
+    })->name('categories')->name('categories');
+    Route::get('/categories/category', function (){
+        return Inertia::render('Category');
+    })->name('Category')->name('category');
 
-Route::get('/transactions/list', [TransactionController::class, 'index'])->middleware(['auth', 'verified'])->name('transactions/list');
+    Route::get('/categories/list', 'index')->name('categories/list');
+    Route::post('/categories/add', 'store')->name('categories/add');
+    Route::post('/categories/edit', 'edit')->name('categories/edit');
+    Route::post('/categories/destroy', 'destroy')->name('categories/destroy');
+});
 
-Route::get('/transactions/lineChart', [TransactionController::class, 'lineChart'])->middleware(['auth', 'verified'])->name('transactions/lineChart');
-
-Route::get('/categories', function () {
-    return Inertia::render('Categories');
-})->middleware(['auth', 'verified'])->name('categories');
-Route::get('/categories/category', function () {
-    return Inertia::render('Category');
-})->middleware(['auth', 'verified'])->name('category');
-
-Route::post('/categories/add', [CategoryController::class, 'store'])->middleware(['auth', 'verified'])->name('categories/add');
-Route::post('/categories/edit', [CategoryController::class, 'edit'])->middleware(['auth', 'verified'])->name('categories/edit');
-Route::post('/categories/destroy', [CategoryController::class, 'destroy'])->middleware(['auth', 'verified'])->name('categories/destroy');
-
-Route::get('/categories/list', [CategoryController::class, 'index'])->middleware(['auth', 'verified'])->name('categories/list');
-Route::get('/users/balance', [RegisteredUserController::class, 'getBalance'])->middleware(['auth', 'verified'])->name('/users/balance');
-
-Route::get('/analytics', function () {
-    return Inertia::render('Analytics');
-})->middleware(['auth', 'verified'])->name('analytics');
-
-Route::get('/settings', function () {
+/** Settings Routes */
+Route::controller(RegisteredUserController::class)->middleware(['auth', 'verified'])->group(function (){
+    Route::get('settings', function (){
     return Inertia::render('Settings');
-})->middleware(['auth', 'verified'])->name('settings');
+    })->name('settings');
+});
+
+/** Analytics Routes */
+Route::controller(RegisteredUserController::class)->middleware(['auth', 'verified'])->group(function (){
+    Route::get('analytics', function (){
+    return Inertia::render('Analytics');
+    })->name('analytics');
+});
+
+/** User Routes */
+Route::controller(RegisteredUserController::class)->middleware(['auth', 'verified'])->group(function (){
+    Route::get('/users/balance', 'getBalance')->name('/users/balance');
+});
 
 require __DIR__.'/auth.php';

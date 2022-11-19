@@ -359,7 +359,7 @@ export default {
                         </li>
                     </ul>
                 </div>
-                <div class="w-full py-12 overflow-y-scroll h-[91.5vh]">
+                <div class="w-full py-8 overflow-y-scroll h-[91.5vh]">
                     <div class="mx-8">
                         <div class="flex justify-between items-center mb-4">
                             <div>
