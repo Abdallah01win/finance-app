@@ -16,10 +16,17 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('last_name');
             $table->string('email')->unique();
+            $table->string('image')->nullable();
+            $table->string('currancy')->default('USD');
+            $table->string('language')->default('English');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('balance')->default(0);
+            $table->integer('income_target')->default(null)->nullable();
+            $table->integer('expances_target')->default(null)->nullable();
+            $table->integer('savings_target')->default(null)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

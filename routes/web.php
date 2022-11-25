@@ -58,6 +58,7 @@ Route::controller(RegisteredUserController::class)->middleware(['auth', 'verifie
     Route::get('settings', function (){
     return Inertia::render('Settings');
     })->name('settings');
+    Route::post('/settings/edit', 'update')->name('settings/edit');
 });
 
 /** Analytics Routes */
