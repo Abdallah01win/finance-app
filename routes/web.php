@@ -71,6 +71,8 @@ Route::controller(RegisteredUserController::class)->middleware(['auth', 'verifie
 /** User Routes */
 Route::controller(RegisteredUserController::class)->middleware(['auth', 'verified'])->group(function (){
     Route::get('/users/balance', 'getBalance')->name('/users/balance');
+    Route::get('/users', 'getUser')->name('/users');
+    Route::get('/user/avatar', 'getAvatar')->name('user/avatar');
 });
 
 require __DIR__.'/auth.php';

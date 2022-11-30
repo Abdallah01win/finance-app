@@ -20,6 +20,7 @@
         "vue": "^3.2.31"
     },
     "dependencies": {
-        "chart.js": "^3.9.1"
+        "chart.js": "^3.9.1",
+        "vuex": "^4.0.2"
     }
 }

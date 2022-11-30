@@ -1,29 +1,35 @@
 <script>
 import axios from 'axios';
 import { Link } from '@inertiajs/inertia-vue3';
+import { mapGetters, mapState, mapActions,} from 'vuex';
+
 export default {
     data() {
         return {
-            transactions: [],
         }
     },
-    components: {
-        Link,
+    computed: {
+        ...mapState([
+            'transactions',
+            'user'
+        ])
     },
     methods: {
-        loadTransactions() {
-            axios.get('transactions/list').then(response => this.transactions = response.data);
-        },
         dateConvert(date) {
             let newDate = new Date(date)
             let myDate = {}
             myDate.date = newDate.toString().substring(0, 10)
             myDate.time = newDate.toString().substring(16, 24)
             return myDate
-        }
+        },
+        ...mapActions(["getTransactions", "getUser"])
     },
-    mounted: function () {
-        this.loadTransactions();
+    mounted : function () {
+        this.getTransactions();
+        this.getUser();
+    },
+    components: {
+        Link,
     }
 }
 </script>
@@ -60,7 +66,7 @@ export default {
             </thead>
 
             <tbody>
-                <tr v-for="(item, index) in transactions" class="border-b border-myDark-100 hover:bg-myDark-100">
+                <tr v-for="(item, index) in transactions" :key="transactions[index].id" class="border-b border-myDark-100 hover:bg-myDark-100">
                     <td class="pl-8 py-2">{{ index + 1 }}</td>
                     <td>{{ dateConvert(item.created_at).date }}</td>
                     <!-- <td class="pl-3 py-2">Date</td> -->

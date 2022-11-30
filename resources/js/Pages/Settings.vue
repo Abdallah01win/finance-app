@@ -24,12 +24,25 @@ const submit = (e) => {
 
 </script>
 <script>
+import axios from 'axios';
 export default {
     data() {
         return {
+            user: '',
             isEditable: false,
         }
-    }, methods:{
+    },
+    components:{
+    },
+    methods: {
+        getUser() {
+            axios.get('/users').then((response) => {
+                this.user = response.data[0]
+            });
+        },
+    },
+    beforeMount: function () {
+        this.getUser();
     }
 }
 </script>
@@ -49,8 +62,7 @@ export default {
                         <PrimaryButton @click="this.isEditable = !isEditable"
                             :type="this.isEditable ? 'button' : 'submit'"
                             class="bg-myBlue/100 font-poppins pt-2 pb-2 hover:border hover:border-myDark-100/100 hover:bg-myDark-300/100 font-semibold">
-                            {{ isEditable ? 'Save' : 'Edit'
-                            }}
+                            {{ isEditable ? 'Save' : 'Edit' }}
                         </PrimaryButton>
                     </div>
                 </div>
@@ -60,49 +72,44 @@ export default {
                         <div class="w-full">
                             <InputLabel for="FirstName" value="First Name" />
                             <TextInput id="FirstName" type="text" class="mt-1 block w-full bg-myDark-300/100"
-                                v-model="form.FirstName" autocomplete=""
+                                v-model="form.FirstName" 
+                                :placeholder="user.name"
                                 v-bind:disabled="!isEditable"></TextInput>
                             <InputError class="mt-2" :message="form.errors.FirstName" />
                         </div>
                         <div class="w-full">
                             <InputLabel for="LastName" value="Last Name" />
                             <TextInput id="LastName" type="text" class="mt-1 block w-full bg-myDark-300/100"
-                                v-model="form.last_name" autocomplete="" v-bind:disabled="!isEditable" />
+                                v-model="form.last_name" :placeholder="user.last_name" v-bind:disabled="!isEditable" />
                             <InputError class="mt-2" :message="form.errors.last_name" />
                         </div>
                     </div>
                     <div class="w-full mt-4">
                         <InputLabel for="Email" value="Email" />
                         <TextInput id="Email" type="email" class="mt-1 block w-full bg-myDark-300/100"
-                            :value="$page.props.auth.user.email" disabled autocomplete="" />
+                        :placeholder="user.email" disabled/>
                         <InputError class="mt-2" />
                     </div>
 
-                    <!-- <div class="mt-4">
-                            <InputLabel for="description" value="Description" />
-                            <TextInput id="description" type="text" class="mt-1 block w-full bg-myDark-300/100"
-                                v-model="form.description" autocomplete="" v-bind:disabled="!isEditable" />
-                            <InputError class="mt-2" :message="form.errors.description" />
-                        </div> -->
                     <!-- Targets -->
                     <div class="text-xl font-medium my-4 text-white">Targets</div>
                     <div class="flex gap-4">
                         <div class="w-full">
                             <InputLabel for="Income" value="Income" />
                             <TextInput id="Income" type="number" class="mt-1 block w-full bg-myDark-300/100"
-                                v-model="form.income" autocomplete="" v-bind:disabled="!isEditable" />
+                                v-model="form.income" :placeholder="user.income_target" v-bind:disabled="!isEditable" />
                             <InputError class="mt-2" :message="form.errors.income" />
                         </div>
                         <div class="w-full">
                             <InputLabel for="Expances" value="Expances" />
                             <TextInput id="Expances" type="number" class="mt-1 block w-full bg-myDark-300/100"
-                                v-model="form.expances" autocomplete="" v-bind:disabled="!isEditable" />
+                                v-model="form.expances" :placeholder="user.expances_target" v-bind:disabled="!isEditable" />
                             <InputError class="mt-2" :message="form.errors.expances" />
                         </div>
                         <div class="w-full">
                             <InputLabel for="Savings" value="Savings" />
                             <TextInput id="Savings" type="number" class="mt-1 block w-full bg-myDark-300/100"
-                                v-model="form.savings" autocomplete="" v-bind:disabled="!isEditable" />
+                                v-model="form.savings" :placeholder="user.savings_target" v-bind:disabled="!isEditable" />
                             <InputError class="mt-2" :message="form.errors.savings" />
                         </div>
                     </div>
@@ -132,7 +139,7 @@ export default {
                         <div class="flex items-center gap-x-4">
                             <div>
                                 <div class="p-2 bg-myDark-100 rounded-lg hover:text-white cursor-pointer">
-                                    <div class="w-10">
+                                    <div class="w-10" v-if="user.image == null">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
                                             <title>Person</title>
                                             <path
@@ -145,15 +152,18 @@ export default {
                                                 stroke-width="32" />
                                         </svg>
                                     </div>
+                                    <div  class="w-10 h-10" >
+                                        <img :src="user.image" alt="" class="w-full h-full">
+                                    </div>
                                 </div>
                                 <!-- end user -->
                             </div>
                             <div class="flex flex-col justify-between">
                                 <div class="text-white">
-                                    {{ $page.props.auth.user.name }}
+                                    {{ user.name }} {{user.last_name}}
                                 </div>
                                 <div class="text-sm">
-                                    {{ $page.props.auth.user.email }}
+                                    {{ user.email }}
                                 </div>
                             </div>
                         </div>
@@ -180,6 +190,7 @@ export default {
                                     <span class="text-myBlue cursor-pointer hover:underline">Click Here</span>
                                 </span>
                                 <span> drop to Upload your profile picture.</span>
+                                <InputError class="mt-2" :message="form.errors.image" />
                             </div>
                         </div>
                     </div>
@@ -192,7 +203,9 @@ export default {
                 <div class="mt-2 flex flex-col gap-y-2 mb-4">
                     <div>
                         <InputLabel for="Currancy" value="Currancy" />
-                        <select v-bind:disabled="!isEditable" v-model="form.currancy" name="Currancy" id="Currancy"
+                        <select v-bind:disabled="!isEditable"
+                                v-model="form.currancy"
+                                name="Currancy" id="Currancy"
                             class="bg-myDark-300 rounded-lg text-white outline-none border border-myDark-100 focus:outline-myBlue w-full mt-1">
                             <option value="USD">USD</option>
                             <option value="MDH">MDH</option>

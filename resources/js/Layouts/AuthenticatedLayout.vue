@@ -9,6 +9,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link, useForm } from '@inertiajs/inertia-vue3';
 const showingNavigationDropdown = ref(false);
 
+
 const form = useForm({
     title: '',
     date: '',
@@ -19,8 +20,10 @@ const form = useForm({
 });
 </script>
 <script>
+import { mapGetters } from 'vuex';
 import axios from 'axios';
 export default {
+    computed: mapGetters(['allTodos']),
     data() {
         return {
             balance: Number,
@@ -198,7 +201,7 @@ export default {
                 <div class="bg-myDark-200 shadow w-[22%] h-[91.5vh]">
                     <ul class="flex flex-col h-full">
                         <div class="uppercase text-white text-lg pl-8 pr-4 py-3 flex items-center justify-between">
-                            <span>main menu</span>
+                            <span>main menu {{$store.state.counter}}</span>
                             <span class="w-6 hover:rotate-180 cursor-pointer transition-all">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
                                     <title>Chevron Forward</title>
