@@ -38,13 +38,13 @@ export default {
 };
 </script>
 <template>
-    <div v-for="(item, index) in data">
+    <div v-for="(item, index) in data" :key=index>
         <div class="bg-myDark-100 overflow-hidden sm:rounded-lg flex cursor-pointer">
             <div class="px-6 py-4 grow">
                 <div class="flex justify-between items-center mb-3 text-white">
                     <div class="flex gap-x-4 items-center">
                         <div class=" font-semibold text-lg">{{ item.title[0].toUpperCase() +
-                                item.title.slice(1)
+                            item.title.slice(1)
                         }}
                         </div>
                         <span>

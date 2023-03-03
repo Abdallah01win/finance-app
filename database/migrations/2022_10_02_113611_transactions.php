@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('description');
             $table->integer('ammount')->default(0);
             $table->string('type');
-            $table->string('category');
+            $table->integer('category');
             $table->timestamps();
         });
     }

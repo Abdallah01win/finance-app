@@ -28,7 +28,6 @@ export default {
         loadCategories() {
            axios.get('categories/list').then((response) => {
                 this.categories = response.data;
-                console.log(this.categories)
             });
         },
     },

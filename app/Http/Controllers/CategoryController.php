@@ -21,7 +21,7 @@ class CategoryController extends Controller
         $data = Category::where('userId', '=', $userId)->get();
         for ($i=0; $i < count($data); $i++) { 
             $row = $data[$i];
-            $row['total'] = Transaction::where('userId', '=', $userId)->where('category', '=', $row['title'])->sum('ammount');
+            $row['total'] = Transaction::where('userId', '=', $userId)->where('category', '=', $row['id'])->sum('ammount');
         }
         return $data;
     }
