@@ -72,7 +72,7 @@ export default {
                     <!-- <td class="pl-3 py-2">Date</td> -->
                     <td class="pl-3 py-2">{{ item.title }}</td>
                     <td class="pl-3 py-2">{{ item.ammount }}</td>
-                    <td class="pl-3 py-2">{{ item.category }}</td>
+                    <td class="pl-3 py-2">{{ item.category_name }}</td>
                     <td class="pl-3 py-2 text-myDark-300 font-semibold text-sm">
                         <span class="bg-myGreen rounded-full px-2" v-if="item.type === 'Income'">{{
                                 item.type

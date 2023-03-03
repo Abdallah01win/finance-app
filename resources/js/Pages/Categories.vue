@@ -20,7 +20,7 @@ export default {
             expances: [],
             income: [],
             savings: [],
-            itemId: Number,
+            itemId: "", 
         }
     },
     methods: {

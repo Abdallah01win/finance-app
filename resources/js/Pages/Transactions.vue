@@ -14,6 +14,7 @@ export default {
     data() {
         return {
             transactions: [],
+            categories: '',
             components: {
                 TransactionForm,
                 TransactionsTable
@@ -23,10 +24,18 @@ export default {
     methods: {
         loadTransactions() {
             axios.get('transactions/list').then(response => this.transactions = response.data);
-        }
+        },
+        loadCategories() {
+           axios.get('categories/list').then((response) => {
+                this.categories = response.data;
+                console.log(this.categories)
+            });
+        },
     },
+    
     mounted: function () {
         this.loadTransactions();
+        this.loadCategories();
     }
 }
 </script>
@@ -35,6 +44,6 @@ export default {
     <Head title="Transactions" />
     <AuthenticatedLayout>
         <TransactionsTable />
-        <TransactionForm />
+        <TransactionForm :categories="categories" />
     </AuthenticatedLayout>
 </template>
