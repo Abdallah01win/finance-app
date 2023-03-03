@@ -81,15 +81,11 @@ class RegisteredUserController extends Controller
         $request->validate([
             'FirstName' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'image' => 'file|image|mimes:jpg,png,jpeg,gif,svg|max:1024',
+            'image' => 'file|image|mimes:jpg,png,jpeg,svg,webp|max:1024',
         ]);
         $userId = Auth::id();
         if ($request->hasFile('image')) {
-            $path = 'public/images/users';
-            $image = $request->file('image');
-            $imageName = $image->getClientOriginalName();
-            $newPath = Storage::disk('local')->put($path, $image);
-            $imageUrl = asset('storage/app/'. $newPath);
+            $imageUrl = $request->file('image')->store('users', 'public');
         }
         $user = User::where('id', '=', $userId)->limit(1)->update([
             'name' => $request->FirstName,
@@ -99,7 +95,7 @@ class RegisteredUserController extends Controller
             'savings_target' => $request->savings,
             'currancy' => $request->currancy,
             'language' => $request->language,
-            'image' => $imageUrl
+            'image' => asset('storage/' . $imageUrl)
         ]);
         return redirect('/settings')->with('success', 'Contact Updated!');
     }

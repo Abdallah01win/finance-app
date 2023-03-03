@@ -30,7 +30,7 @@ Route::get('/', function () {
 
 /** Transactions Routes */
 Route::controller(TransactionController::class)->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/transactions', function (){
+    Route::get('/transactions', function () {
         return Inertia::render('Transactions');
     })->name('transactions');
     Route::get('/transactions/list', 'index')->name('transactions/list');
@@ -40,10 +40,10 @@ Route::controller(TransactionController::class)->middleware(['auth', 'verified']
 
 /** Categories Routes */
 Route::controller(CategoryController::class)->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/categories', function (){
+    Route::get('/categories', function () {
         return Inertia::render('Categories');
     })->name('categories')->name('categories');
-    Route::get('/categories/category', function (){
+    Route::get('/categories/category', function () {
         return Inertia::render('Category');
     })->name('Category')->name('category');
 
@@ -54,25 +54,25 @@ Route::controller(CategoryController::class)->middleware(['auth', 'verified'])->
 });
 
 /** Settings Routes */
-Route::controller(RegisteredUserController::class)->middleware(['auth', 'verified'])->group(function (){
-    Route::get('settings', function (){
-    return Inertia::render('Settings');
+Route::controller(RegisteredUserController::class)->middleware(['auth', 'verified'])->group(function () {
+    Route::get('settings', function () {
+        return Inertia::render('Settings');
     })->name('settings');
     Route::post('/settings/edit', 'update')->name('settings/edit');
 });
 
 /** Analytics Routes */
-Route::controller(RegisteredUserController::class)->middleware(['auth', 'verified'])->group(function (){
-    Route::get('analytics', function (){
-    return Inertia::render('Analytics');
+Route::controller(RegisteredUserController::class)->middleware(['auth', 'verified'])->group(function () {
+    Route::get('analytics', function () {
+        return Inertia::render('Analytics');
     })->name('analytics');
 });
 
 /** User Routes */
-Route::controller(RegisteredUserController::class)->middleware(['auth', 'verified'])->group(function (){
+Route::controller(RegisteredUserController::class)->middleware(['auth', 'verified'])->group(function () {
     Route::get('/users/balance', 'getBalance')->name('/users/balance');
     Route::get('/users', 'getUser')->name('/users');
-    Route::get('/user/avatar', 'getAvatar')->name('user/avatar');
+    //Route::get('/user/avatar', 'getAvatar')->name('user/avatar');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

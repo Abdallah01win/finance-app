@@ -138,8 +138,8 @@ export default {
                     <div class="mt-2 mb-4">
                         <div class="flex items-center gap-x-4">
                             <div>
-                                <div class="p-2 bg-myDark-100 rounded-lg hover:text-white cursor-pointer">
-                                    <div class="w-10" v-if="user.image == null">
+                                <div class="bg-myDark-100 rounded-lg hover:text-white cursor-pointer overflow-hidden">
+                                    <div class="w-14 h-14 p-2" v-if="user.image == null">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
                                             <title>Person</title>
                                             <path
@@ -152,7 +152,7 @@ export default {
                                                 stroke-width="32" />
                                         </svg>
                                     </div>
-                                    <div  class="w-10 h-10" >
+                                    <div  class="w-14 h-14">
                                         <img :src="user.image" alt="" class="w-full h-full">
                                     </div>
                                 </div>

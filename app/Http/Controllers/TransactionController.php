@@ -58,9 +58,9 @@ class TransactionController extends Controller
         ]);
         $calcBalance = intval($request->get('ammount'));
         if ($request->get('type') === 'Income') {
-            User::where('id', '=', $userId)->limit(1)->increment('balance', $calcBalance);
+            User::where('id', $userId)->limit(1)->increment('balance', $calcBalance);
         } else {
-            User::where('id', '=', $userId)->limit(1)->decrement('balance', $calcBalance);
+            User::where('id', $userId)->limit(1)->decrement('balance', $calcBalance);
         }
         $contact->save();
         return redirect('/transactions')->with('success', 'Contact saved!');
