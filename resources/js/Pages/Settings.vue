@@ -114,6 +114,14 @@ export default {
                         </div>
                     </div>
                 </div>
+                
+
+            </div>
+
+            <!-- End settings sec -->
+
+            <!-- Deletion Section -->
+            <div class="rounded-lg bg-myDark-200 border border-myDark-100 p-6 row-start-2">
                 <div class="text-xl font-medium mt-4 mb-2 text-white">Danger Zone</div>
                 <p class="mb-4 w-[85%]">Deleting your OnPoint account or reseting your data will resault in the lose
                     of all of your Transactions, Categories, and Settings!</p>
@@ -127,11 +135,10 @@ export default {
                         Reset My Data</PrimaryButton>
 
                 </div>
-
             </div>
-            <!-- End settings sec -->
+            <!-- End Deletion Section -->
             <!-- Profile sec -->
-            <div class="rounded-lg bg-myDark-200 border border-myDark-100 p-6 flex flex-col justify-between">
+            <div class="col-start-2 row-span-2 rounded-lg bg-myDark-200 border border-myDark-100 p-6 flex flex-col justify-between">
                 <div>
                     <div class="text-xl font-medium text-white">Profile</div>
                     <!-- user -->

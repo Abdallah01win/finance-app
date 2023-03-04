@@ -18,7 +18,7 @@ class TransactionController extends Controller
     public function index()
     {
         //route should be a post one and send fillters through it then build the query with the set ones 
-        return Transaction::join('categories', 'categories.id', '=', 'transactions.category')
+        return Transaction::join('categories', 'categories.id', '=', 'transactions.category_id')
         ->select('transactions.*','categories.title as category_name')
         ->where('transactions.userId', '=', Auth::id())
         ->limit(10)
@@ -59,7 +59,7 @@ class TransactionController extends Controller
             'description' => $request->get('description'),
             'ammount' => $request->get('ammount'),
             'type' => $request->get('type'),
-            'category' => $request->get('category')
+            'category_id' => $request->get('category')
         ]);
         $calcBalance = intval($request->get('ammount'));
         if ($request->get('type') === 'Income') {
