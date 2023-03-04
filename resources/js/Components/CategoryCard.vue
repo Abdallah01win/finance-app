@@ -33,6 +33,13 @@ export default {
             myPercent.ret = ret
             myPercent.width = ret <= 100 ? `width: ${ret}%` : 'width: 100%'
             return myPercent
+        },
+        daysLeft(date) {
+            const inputDate = new Date(date);
+            const currentDate = new Date();
+            const timeDiff = inputDate.getTime() - currentDate.getTime();
+            const daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            return daysLeft;
         }
     }
 };
@@ -89,8 +96,13 @@ export default {
                         <span>{{ item.limit }} USD</span>
                     </div>
                 </div>
-                <div class="mt-3 text-sm font-semibold">
-                    <div>{{ dateConvert(item.updated_at).date }}</div>
+                <div class="flex items-center justify-between">
+                    <div class="mt-3 text-sm font-semibold">
+                        <div>{{ dateConvert(item.updated_at).date }}</div>
+                    </div>
+                    <div v-if="item.deadline != null" class="mt-3 text-sm font-semibold">
+                        <div>{{  daysLeft(item.deadline) }} Days Left</div>
+                    </div>
                 </div>
             </div>
         </div>

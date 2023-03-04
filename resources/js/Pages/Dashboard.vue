@@ -138,6 +138,9 @@ export default {
             },
         }
     },
+    props:{
+        categories: Object,
+    },
     methods: {
         /*loadTransactions() {
             axios.get('transactions/list').then(response => this.transactions = response.data);
@@ -162,6 +165,8 @@ export default {
     <AuthenticatedLayout>
 
         <div class="">
+
+            {{ categories }}
             <!-- General stats sec -->
             <div class="grid grid-cols-3 gap-6">
                 <div class="bg-myDark-200 overflow-hidden rounded-lg border border-myDark-100">

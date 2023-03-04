@@ -21,7 +21,7 @@ class CategoryController extends Controller
         $data = Category::where('userId', '=', $userId)->get();
         for ($i=0; $i < count($data); $i++) { 
             $row = $data[$i];
-            $row['total'] = Transaction::where('userId', '=', $userId)->where('category', '=', $row['id'])->sum('ammount');
+            $row['total'] = Transaction::where('userId', '=', $userId)->where('category_id', '=', $row['id'])->sum('ammount');
         }
         return $data;
     }
@@ -54,6 +54,7 @@ class CategoryController extends Controller
             'title' => $request->get('title'),
             'limit' => $request->get('limit'),
             'type' => $request->get('type'),
+            'deadline' => $request->get('deadline'),
         ]);
         $contact->save();
         return redirect('/categories')->with('success', 'Contact saved!');

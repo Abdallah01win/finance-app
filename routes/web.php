@@ -6,6 +6,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CategoryController;
 use App\Models\User;
+use App\Models\Category;
 use Inertia\Inertia;
 
 /*
@@ -20,11 +21,27 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
+
+    // Retrieve the sum of all transactions grouped by category type
+    $transactionsByType = Category::with('transactions')
+        ->get()
+        ->groupBy('type')
+        ->map(function ($categories) {
+            return $categories->flatMap(function ($category) {
+                return $category->transactions;
+            })
+            ->sum('ammount');
+        });
+
+    // Convert the results to an object with category types as keys
+    $transactionsByTypeObj = $transactionsByType->toArray();
+
     return Inertia::render('Dashboard', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'categories' => $transactionsByTypeObj,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 

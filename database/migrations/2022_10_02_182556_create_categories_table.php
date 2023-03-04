@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('userId');
             $table->string('title');
             $table->integer('limit')->nullable()->default(null);
+            $table->date('deadline')->nullable();
             $table->string('type');
             $table->timestamps();
         });

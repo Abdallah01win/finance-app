@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
     protected $fillable = [
         'userId',
         'title',

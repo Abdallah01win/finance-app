@@ -9,12 +9,13 @@ const form = useForm({
     title: '',
     limit: '',
     type: '',
+    deadline: '',
 });
 
 const submit = () => {
     form.post(route('categories/add'), {
         onFinish: () => {
-            form.reset('title', 'limit', 'type')
+            form.reset('title', 'limit', 'type', 'deadline')
             close('formHolder')
         },
     });
@@ -26,13 +27,14 @@ const close = (id) => {
 </script>
 
 <template>
-    <div @click.self="close('formHolder')" class="bg-myDark-300/90 absolute top-0 left-0 w-full h-screen z-10 hidden" id="formHolder">
-        <div class=" bg-myDark-100 overflow-hidden shadow-sm sm:rounded-lg px-10 py-8 w-[50%] mx-auto translate-y-[50%]">
-            <div class="flex justify-between items-center mb-2">
-                <h3 class="text-2xl text-white">Creat a New Category</h3>
-                <button class="p-2 bg-gray-200 rounded-full" @click="close('formHolder')">
-                    <img src="../../../storage/assets/close.svg" alt="" class="w-6">
-                </button>
+    <div @click.self="close('formHolder')" class="bg-myDark-300/90 absolute top-0 left-0 w-full h-screen z-10 hidden"
+    id="formHolder">
+    <div class=" bg-myDark-100 overflow-hidden shadow-sm sm:rounded-lg px-10 py-8 w-[50%] mx-auto translate-y-[50%]">
+        <div class="flex justify-between items-center mb-2">
+            <h3 class="text-2xl text-white">Creat a New Category</h3>
+            <button class="p-2 bg-gray-200 rounded-full" @click="close('formHolder')">
+                <img src="../../../storage/assets/close.svg" alt="" class="w-6">
+            </button>
             </div>
             <form @submit.prevent="submit">
                 <div class="mt-4 w-full">
@@ -45,20 +47,28 @@ const close = (id) => {
                 <div class="mt-4 w-full">
                     <InputLabel for="limit" value="Target" />
                     <TextInput id="limit" type="number" min="0" class="mt-1 block w-full" v-model="form.limit"
-                        autocomplete="" />
+                        required />
                     <InputError class="mt-2" :message="form.errors.limit" />
                 </div>
 
-                <div class="mt-4 w-full">
-                    <InputLabel for="type" value="Type" />
-                    <select name="type" id="type"
-                        class="mt-1 block w-full border-none focus:border-none focus:ring focus:ring-myBlue rounded-md bg-myDark-200 text-white"
-                        v-model="form.type">
-                        <option value="Income">Income</option>
-                        <option value="Expances">Expances</option>
-                        <option value="Savings">Savings</option>
-                    </select>
-                    <InputError class="mt-2" :message="form.errors.type" />
+                <div class="flex gap-4">
+                    <div class="mt-4 w-full">
+                        <InputLabel for="type" value="Type" />
+                        <select name="type" id="type"
+                            class="mt-1 block w-full border-none focus:border-none focus:ring focus:ring-myBlue rounded-md bg-myDark-200 text-white"
+                            v-model="form.type">
+                            <option value="Income">Income</option>
+                            <option value="Expances">Expances</option>
+                            <option value="Savings">Savings</option>
+                        </select>
+                        <InputError class="mt-2" :message="form.errors.type" />
+                    </div>
+
+                    <div class="mt-4 w-full">
+                        <InputLabel for="deadline" value="Deadline" />
+                        <TextInput id="deadline" type="date" class="mt-1 block w-full" v-model="form.deadline" v-bind:disabled="form.type == ''" />
+                        <InputError class="mt-2" :message="form.errors.deadline" />
+                    </div>
                 </div>
 
                 <div class="flex items-center justify-end mt-6">
