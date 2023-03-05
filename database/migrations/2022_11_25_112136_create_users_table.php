@@ -24,9 +24,6 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('balance')->default(0);
-            $table->integer('income_target')->default(null)->nullable();
-            $table->integer('expances_target')->default(null)->nullable();
-            $table->integer('savings_target')->default(null)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
