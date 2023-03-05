@@ -22,7 +22,6 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
 
-    // Retrieve the sum of all transactions grouped by category type
     $transactionsByType = Category::with('transactions')
         ->get()
         ->groupBy('type')
@@ -30,18 +29,31 @@ Route::get('/', function () {
             return $categories->flatMap(function ($category) {
                 return $category->transactions;
             })
-            ->sum('ammount');
+                ->sum('ammount');
         });
 
-    // Convert the results to an object with category types as keys
-    $transactionsByTypeObj = $transactionsByType->toArray();
+    // Retrieve the sum of all limits grouped by category type
+    $categoryLimits = Category::groupBy('type')
+        ->selectRaw('type, sum(`limit`) as limit_sum')
+        ->pluck('limit_sum', 'type');
 
+    // Combine the transaction sums and category limits into an array of objects
+    $result = collect($transactionsByType)
+        ->map(function ($sum, $type) use ($categoryLimits) {
+            return [
+                'type' => $type,
+                'transactions_sum' => $sum,
+                'limit' => $categoryLimits[$type],
+            ];
+        })
+        ->values()
+        ->all();
     return Inertia::render('Dashboard', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
-        'categories' => $transactionsByTypeObj,
+        'categories' => $result,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 

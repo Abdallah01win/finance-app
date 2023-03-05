@@ -32,7 +32,7 @@ export default {
             isEditable: false,
         }
     },
-    components:{
+    components: {
     },
     methods: {
         getUser() {
@@ -48,19 +48,18 @@ export default {
 </script>
         
 <template>
-
     <Head title="Settings" />
 
     <AuthenticatedLayout>
         <!-- Settings -->
-        <form class="w-full grid grid-cols-[3fr,1.3fr] gap-6 my-6" action="" method="post" @submit.prevent="submit" enctype="multipart/form-data">
+        <form class="w-full grid grid-cols-[3fr,1.3fr] gap-6 my-6" action="" method="post" @submit.prevent="submit"
+            enctype="multipart/form-data">
             <!-- settings sec -->
             <div class="rounded-lg bg-myDark-200 border border-myDark-100 p-6">
                 <div class="flex items-center justify-between">
                     <div class="text-xl font-medium text-white">Personal Details</div>
                     <div>
-                        <PrimaryButton @click="this.isEditable = !isEditable"
-                            :type="this.isEditable ? 'button' : 'submit'"
+                        <PrimaryButton @click="this.isEditable = !isEditable" :type="this.isEditable ? 'button' : 'submit'"
                             class="bg-myBlue/100 font-poppins pt-2 pb-2 hover:border hover:border-myDark-100/100 hover:bg-myDark-300/100 font-semibold">
                             {{ isEditable ? 'Save' : 'Edit' }}
                         </PrimaryButton>
@@ -72,9 +71,7 @@ export default {
                         <div class="w-full">
                             <InputLabel for="FirstName" value="First Name" />
                             <TextInput id="FirstName" type="text" class="mt-1 block w-full bg-myDark-300/100"
-                                v-model="form.FirstName" 
-                                :placeholder="user.name"
-                                v-bind:disabled="!isEditable"></TextInput>
+                                v-model="form.FirstName" :placeholder="user.name" v-bind:disabled="!isEditable"></TextInput>
                             <InputError class="mt-2" :message="form.errors.FirstName" />
                         </div>
                         <div class="w-full">
@@ -87,12 +84,12 @@ export default {
                     <div class="w-full mt-4">
                         <InputLabel for="Email" value="Email" />
                         <TextInput id="Email" type="email" class="mt-1 block w-full bg-myDark-300/100"
-                        :placeholder="user.email" disabled/>
+                            :placeholder="user.email" disabled />
                         <InputError class="mt-2" />
                     </div>
 
                     <!-- Targets -->
-                    <div class="text-xl font-medium my-4 text-white">Targets</div>
+                    <!-- <div class="text-xl font-medium my-4 text-white">Targets</div>
                     <div class="flex gap-4">
                         <div class="w-full">
                             <InputLabel for="Income" value="Income" />
@@ -112,9 +109,9 @@ export default {
                                 v-model="form.savings" :placeholder="user.savings_target" v-bind:disabled="!isEditable" />
                             <InputError class="mt-2" :message="form.errors.savings" />
                         </div>
-                    </div>
+                    </div> -->
                 </div>
-                
+
 
             </div>
 
@@ -138,7 +135,8 @@ export default {
             </div>
             <!-- End Deletion Section -->
             <!-- Profile sec -->
-            <div class="col-start-2 row-span-2 rounded-lg bg-myDark-200 border border-myDark-100 p-6 flex flex-col justify-between">
+            <div
+                class="col-start-2 row-span-2 rounded-lg bg-myDark-200 border border-myDark-100 p-6 flex flex-col justify-between">
                 <div>
                     <div class="text-xl font-medium text-white">Profile</div>
                     <!-- user -->
@@ -159,7 +157,7 @@ export default {
                                                 stroke-width="32" />
                                         </svg>
                                     </div>
-                                    <div  class="w-14 h-14">
+                                    <div class="w-14 h-14">
                                         <img :src="user.image" alt="" class="w-full h-full">
                                     </div>
                                 </div>
@@ -167,7 +165,7 @@ export default {
                             </div>
                             <div class="flex flex-col justify-between">
                                 <div class="text-white">
-                                    {{ user.name }} {{user.last_name}}
+                                    {{ user.name }} {{ user.last_name }}
                                 </div>
                                 <div class="text-sm">
                                     {{ user.email }}
@@ -184,15 +182,14 @@ export default {
                                         d="M320 367.79h76c55 0 100-29.21 100-83.6s-53-81.47-96-83.6c-8.89-85.06-71-136.8-144-136.8-69 0-113.44 45.79-128 91.2-60 5.7-112 43.88-112 106.4s54 106.4 120 106.4h56"
                                         fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                         stroke-width="32" />
-                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                        stroke-linejoin="round" stroke-width="32"
-                                        d="M320 255.79l-64-64-64 64M256 448.21V207.79" />
+                                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="32" d="M320 255.79l-64-64-64 64M256 448.21V207.79" />
                                 </svg>
                             </div>
                             <div class="relative">
                                 <span class="w-fit">
                                     <input type="file" accept="image/png, image/jpeg" name="image" id="image"
-                                        @change="(e)=>{form.image =  e.target.files[0]}"
+                                        @change="(e) => { form.image = e.target.files[0] }"
                                         class="absolute top-0 left-0 opacity-0 bg-myRed overflow-hidden">
                                     <span class="text-myBlue cursor-pointer hover:underline">Click Here</span>
                                 </span>
@@ -210,9 +207,7 @@ export default {
                 <div class="mt-2 flex flex-col gap-y-2 mb-4">
                     <div>
                         <InputLabel for="Currancy" value="Currancy" />
-                        <select v-bind:disabled="!isEditable"
-                                v-model="form.currancy"
-                                name="Currancy" id="Currancy"
+                        <select v-bind:disabled="!isEditable" v-model="form.currancy" name="Currancy" id="Currancy"
                             class="bg-myDark-300 rounded-lg text-white outline-none border border-myDark-100 focus:outline-myBlue w-full mt-1">
                             <option value="USD">USD</option>
                             <option value="MDH">MDH</option>

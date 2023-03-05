@@ -138,13 +138,17 @@ export default {
             },
         }
     },
-    props:{
+    props: {
         categories: Object,
     },
     methods: {
-        /*loadTransactions() {
-            axios.get('transactions/list').then(response => this.transactions = response.data);
-        },*/
+        calcPercent(total, fr) {
+            let myPercent = {}
+            let ret = Math.floor(((fr * 100) / total))
+            myPercent.ret = ret
+            myPercent.width = ret <= 100 ? `width: ${ret}%` : 'width: 100%'
+            return myPercent
+        },
         dateConvert(date) {
             let newDate = new Date(date)
             let myDate = {}
@@ -160,29 +164,27 @@ export default {
 }
 </script>
 <template>
-
     <Head title="Dashboard" />
-    <AuthenticatedLayout>
+<AuthenticatedLayout>
 
-        <div class="">
+    <div class="">
 
-            {{ categories }}
-            <!-- General stats sec -->
+        <!-- General stats sec -->
             <div class="grid grid-cols-3 gap-6">
                 <div class="bg-myDark-200 overflow-hidden rounded-lg border border-myDark-100">
                     <div class="p-6 hover:bg-myDark-100">
                         <div>Income</div>
                         <div class="flex items-center gap-2 text-3xl text-white mt-1 font-medium">
-                            <span>253k</span>
-                            <span class="uppercase ">USD</span>
-                            <!-- lable component -->
-                            <div
-                                class="bg-myGreen text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center">
-                                <div class="translate-y-[10%]">30%</div>
-                            </div>
+                        <span>253k</span>
+                        <span class="uppercase ">USD</span>
+                        <!-- lable component -->
+                        <div
+                            class="bg-myGreen text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center">
+                            <div class="translate-y-[10%]">30%</div>
                         </div>
                     </div>
                 </div>
+            </div>
                 <div class="bg-myDark-200 hover:bg-myDark-100 overflow-hidden rounded-lg border border-myDark-100">
                     <div class="p-6 hover:bg-myDark-100">
                         <div>Savings</div>
@@ -220,8 +222,7 @@ export default {
                 <div class="rounded-lg bg-myDark-200 border border-myDark-100 p-6">
                     <div class="flex items-center justify-between mb-6">
                         <div class="text-white text-2xl font-medium">Statistics</div>
-                        <div
-                            class="flex items-center text-sm py-2 px-3 bg-myDark-300 rounded-lg border border-myDark-100">
+                        <div class="flex items-center text-sm py-2 px-3 bg-myDark-300 rounded-lg border border-myDark-100">
                             <div class="flex items-center">
                                 <span class="w-5 h-5 bg-myGreen border border-myDark-100 mr-2 rounded-md"></span>
                                 <span>Income</span>
@@ -260,79 +261,41 @@ export default {
                         </div>
                         </Link>
                     </div>
+
                     <div class="flex flex-col gap-y-4 text-sm">
-                        <div v-if="this.incomeTarget">
-                            <div class="flex items-center justify-between mb-2">
-                                <span>
-                                    Income Target
-                                </span>
-                                <span>
-                                    <div
-                                        class="bg-myGreen text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center">
-                                        <div class="translate-y-[10%]">30%</div>
-                                    </div>
-                                </span>
+                        <div v-for="item in categories" :key="item">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <span>
+                                        {{ item.type }} Target
+                                    </span>
+                                    <span>
+                                        <div class="bg-myGreen text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center"
+                                            :class="{
+                                                'bg-myRed/100': item.type == 'Expances',
+                                                'bg-myBlue/100': item.type == 'Savings',
+                                            }">
+                                            <div class="translate-y-[10%]">
+                                                {{ Math.floor(((parseInt(item.transactions_sum) *
+                                                    100) / parseInt(item.limit))) }}%</div>
+                                        </div>
+                                    </span>
+                                </div>
+                                <div class="mb-2 w-full h-4 bg-myDark-300 rounded-full">
+                                    <div class="h-4 rounded-full"
+                                        :style="calcPercent(item.limit, item.transactions_sum).width" :class="{
+                                            'bg-myBlue': item.type == 'Savings',
+                                            'bg-myRed': item.type == 'Expances',
+                                            'bg-myGreen': item.type == 'Income',
+                                        }"></div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span>{{ item.transactions_sum }} USD</span>
+                                    <span>{{ item.limit }} USD</span>
+                                </div>
                             </div>
-                            <div class="mb-2 w-full h-4 bg-myDark-100 rounded-full">
-                                <div class="h-4 bg-myGreen rounded-full" style="width: 45%"></div>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span>2K USD</span>
-                                <span>4K USD</span>
-                            </div>
+
                         </div>
-                        <div v-else class="text-center text-white">No Analytics for now. Set your Targets in <span
-                                class="underline">
-                                <Link :href="route('settings')">Settings.</Link>
-                            </span>.</div>
-                        <div v-if="this.expancesTarget">
-                            <div class="flex items-center justify-between mb-2">
-                                <span>
-                                    Expances Target
-                                </span>
-                                <span>
-                                    <div
-                                        class="bg-myGreen text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center">
-                                        <div class="translate-y-[10%]">20%</div>
-                                    </div>
-                                </span>
-                            </div>
-                            <div class="mb-2 w-full h-4 bg-myDark-100 rounded-full">
-                                <div class="h-4 bg-myRed rounded-full" style="width: 20%"></div>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span>2K USD</span>
-                                <span>4K USD</span>
-                            </div>
-                        </div>
-                        <div v-if="(this.expancesTarget != true) && (this.incomeTarget == true)"
-                            class="text-center text-white">Set your Targets in <span class="underline">
-                                <Link :href="route('settings')">Settings.</Link>
-                            </span></div>
-                        <div v-if="this.savingsTarget">
-                            <div class="flex items-center justify-between mb-2">
-                                <span>
-                                    Savings Target
-                                </span>
-                                <span>
-                                    <div
-                                        class="bg-myGreen text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center">
-                                        <div class="translate-y-[10%]">80%</div>
-                                    </div>
-                                </span>
-                            </div>
-                            <div class="mb-2 w-full h-4 bg-myDark-100 rounded-full">
-                                <div class="h-4 bg-myBlue rounded-full" style="width: 80%"></div>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span>2K USD</span>
-                                <span>4K USD</span>
-                            </div>
-                        </div>
-                        <div v-if="(this.savingsTarget != true) && (this.incomeTarget == true) && (this.expancesTarget == true)"
-                            class="text-center text-white">Set Savings Target in <span class="underline">
-                                <Link :href="route('settings')">Settings.</Link>
-                            </span> </div>
                     </div>
                 </div>
 

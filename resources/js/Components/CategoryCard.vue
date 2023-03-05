@@ -90,7 +90,7 @@ export default {
                             'bg-myRed': type == 'expances',
                             'bg-myGreen': type == 'income',
                         }"></div>
-                    </div>
+                    </div> 
                     <div class="flex items-center justify-between">
                         <span>{{ item.total }} USD</span>
                         <span>{{ item.limit }} USD</span>
