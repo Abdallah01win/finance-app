@@ -19,11 +19,11 @@ class TransactionController extends Controller
     {
         //route should be a post one and send fillters through it then build the query with the set ones 
         return Transaction::join('categories', 'categories.id', '=', 'transactions.category_id')
-        ->select('transactions.*','categories.title as category_name')
-        ->where('transactions.userId', '=', Auth::id())
-        ->limit(10)
-        ->orderBy('transactions.created_at', 'desc')
-        ->get();
+            ->select('transactions.*', 'categories.title as category_name')
+            ->where('transactions.userId', '=', Auth::id())
+            ->limit(10)
+            ->orderBy('transactions.created_at', 'desc')
+            ->get();
     }
 
     /**
@@ -118,11 +118,32 @@ class TransactionController extends Controller
 
     public function lineChart()
     {
-        return Transaction::where('userId', '=', Auth::id())
+        /* return Transaction::where('userId', '=', Auth::id())
         ->groupByRaw('SUBSTRING(created_at, 1, 10), type')
         ->orderBy('created_at','ASC')
         ->get(array( DB::raw('SUM(ammount) as amount'),
                      DB::raw('SUBSTRING(created_at, 1, 10) as date'),
-                    'type'));
+                    'type'));*/
+
+
+        $transactions = DB::table('transactions')
+            ->select(DB::raw('DATE(created_at) as date'), 'type', DB::raw('SUM(ammount) as total_amount'))
+            ->groupBy('date', 'type')
+            ->get();
+
+        $transaction_totals = [];
+
+        foreach ($transactions as $transaction) {
+            $date = $transaction->date;
+            $type = $transaction->type;
+            $amount = $transaction->total_amount;
+
+            if (!isset($transaction_totals[$date])) {
+                $transaction_totals[$date] = [];
+            }
+
+            $transaction_totals[$date][$type] = $amount;
+        }
+        return $transaction_totals;
     }
 }

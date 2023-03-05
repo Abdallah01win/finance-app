@@ -9,81 +9,41 @@ onMounted(() => {
     fetch('transactions/lineChart').then((response) => {
         return response.json();
     }).then((data) => {
+        function dateConvert(date) {
+            let newDate = new Date(date)
+            let myDate = {}
+            myDate.date = newDate.toString().substring(0, 10)
+            myDate.time = newDate.toString().substring(16, 24)
+            return myDate
+        }
         const ctx = document.getElementById('myChart').getContext('2d');
         if (ctx) {
-            let days = []
-            let income = []
-            let expances = []
-            let Savings = []
-            for (let i = 0; i < data.length; i++) {
-                const element = data[i];
-                days.push(element.date);
-                (element.type === 'Income') ? income.push(element) : (element.type === 'Expances') ? expances.push(element) : Savings.push(element);
-            }
-            //console.log(expances, income, days);
-            let expancesData = []
-            let incomeData = []
-            let investmentsData = []
-            /*for (let i = 0; i < days.length; i++) {
-                const element = days[i];
-                for (let x = 0; x < expances.length; x++) {
-                    const el = expances[x];
-                    if (element == el.date) {
-                        expancesData.splice(i, 0, el.amount)
-                    } else {
-                        expancesData.splice(i, 0, 0)
-                    }
-                }
-            }*/
-            for (let i = 0; i < expances.length; i++) {
-                const element = expances[i];
-                expancesData.push(element.amount)
-            }
-            for (let i = 0; i < income.length; i++) {
-                const element = income[i];
-                incomeData.push(element.amount)
-            }
-            for (let i = 0; i < Savings.length; i++) {
-                const element = Savings[i];
-                investmentsData.push(element.amount)
-            }
-            console.log(expancesData)
-            console.log(incomeData)
-            console.log(investmentsData)
-            console.log('this is bullshit')
+            // Get the unique types from the transaction_totals object
+            const types = [...new Set(Object.values(data).flatMap(Object.keys))];
+            // Initialize an object to hold the data for each type
+            const typeData = {};
+            // Loop through each type and create an array of data points for each type
+            types.forEach((type) => {
+                typeData[type] = {
+                    label: type,
+                    data: [],
+                    pointRadius: 0,
+                    borderWidth: 2,
+                    borderColor: type === "Expances" ? "#e50201ff" : "#2f66eeff",
 
+                };
+                // Loop through each day and get the total amount for the current type and day
+                Object.entries(data).forEach(([date, values]) => {
+                    const amount = values[type] || 0; // If the type does not exist for the current day, set the amount to 0
+                    const formattedDate = dateConvert(date).date;
+                    typeData[type].data.push({ x: formattedDate, y: amount });
+                });
+            });
+            console.log(typeData)
             const myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: days,
-                    datasets: [{
-                        label: 'Income',
-                        data: incomeData,
-                        pointRadius: 0,
-                        borderColor: [
-                            '#1fbe6dff',
-                        ],
-                        borderWidth: 2
-                    },
-                    {
-                        label: 'Expances',
-                        data: expancesData,
-                        pointRadius: 0,
-                        borderColor: [
-                            '#e50201ff',
-                        ],
-                        borderWidth: 2
-                    },
-                    {
-                        label: 'Savings',
-                        data: [1500, 1400, 3000],
-                        pointRadius: 0,
-                        borderColor: [
-                            '#2f66eeff',
-                        ],
-                        borderWidth: 2
-                    },
-                    ]
+                    datasets: Object.values(typeData),
                 },
                 options: {
                     scales: {
@@ -115,7 +75,7 @@ onMounted(() => {
                     },
                     plugins: {
                         legend: {
-                            display: false,
+                            display: true,
                         }
                     }
                 }
@@ -165,26 +125,26 @@ export default {
 </script>
 <template>
     <Head title="Dashboard" />
-<AuthenticatedLayout>
+    <AuthenticatedLayout>
 
-    <div class="">
+        <div class="">
 
-        <!-- General stats sec -->
+            <!-- General stats sec -->
             <div class="grid grid-cols-3 gap-6">
                 <div class="bg-myDark-200 overflow-hidden rounded-lg border border-myDark-100">
                     <div class="p-6 hover:bg-myDark-100">
                         <div>Income</div>
                         <div class="flex items-center gap-2 text-3xl text-white mt-1 font-medium">
-                        <span>253k</span>
-                        <span class="uppercase ">USD</span>
-                        <!-- lable component -->
-                        <div
-                            class="bg-myGreen text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center">
-                            <div class="translate-y-[10%]">30%</div>
+                            <span>253k</span>
+                            <span class="uppercase ">USD</span>
+                            <!-- lable component -->
+                            <div
+                                class="bg-myGreen text-myDark-300 text-xs px-2 rounded-2xl font-semibold grid place-content-center">
+                                <div class="translate-y-[10%]">30%</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
                 <div class="bg-myDark-200 hover:bg-myDark-100 overflow-hidden rounded-lg border border-myDark-100">
                     <div class="p-6 hover:bg-myDark-100">
                         <div>Savings</div>
