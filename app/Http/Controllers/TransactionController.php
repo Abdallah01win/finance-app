@@ -19,12 +19,13 @@ class TransactionController extends Controller
     public function index()
     {
         //route should be a post one and send fillters through it then build the query with the set ones 
-        return Transaction::join('categories', 'categories.id', '=', 'transactions.category_id')
+        $transactions = Transaction::join('categories', 'categories.id', '=', 'transactions.category_id')
             ->select('transactions.*', 'categories.title as category_name')
             ->where('transactions.userId', '=', Auth::id())
             ->limit(10)
             ->orderBy('transactions.created_at', 'desc')
-            ->get();
+            ->paginate(10);
+            return response()->json($transactions);
     }
 
     /**

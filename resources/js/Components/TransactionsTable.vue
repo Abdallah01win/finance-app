@@ -1,19 +1,26 @@
 <script>
 import axios from 'axios';
 import { Link } from '@inertiajs/inertia-vue3';
-import { mapGetters, mapState, mapActions,} from 'vuex';
+import { mapGetters, mapState, mapActions, } from 'vuex';
 
 export default {
     data() {
         return {
-            transactions: Array,
+            transactions: [],
+            page: 1,
+            lastPage: 1
         }
     },
     computed: {
-       /* ...mapState([
-            'transactions',
-            'user'
-        ])*/
+        pageNumbers() {
+            const from = Math.max(this.page - 2, 1);
+            const to = Math.min(this.page + 2, this.lastPage);
+            const pages = [];
+            for (let i = from; i <= to; i++) {
+                pages.push(i);
+            }
+            return pages;
+        }
     },
     methods: {
         dateConvert(date) {
@@ -23,17 +30,29 @@ export default {
             myDate.time = newDate.toString().substring(16, 24)
             return myDate
         },
-        
-        /*...mapActions(["getTransactions", "getUser"])*/
-        getTransactions(){
-            axios.get('transactions/list').then((response)=>{
-                this.transactions = response.data;
-            })
+        fetchData() {
+            axios.get('transactions/list?page=' + this.page)
+                .then(response => {
+                    this.transactions = response.data.data;
+                    this.lastPage = response.data.last_page;
+                });
+        },
+        previousPage() {
+            this.page--;
+            this.fetchData();
+        },
+        nextPage() {
+            this.page++;
+            this.fetchData();
+        },
+        goToPage(pageNumber) {
+            this.page = pageNumber;
+            this.fetchData();
         }
     },
-    mounted : function () {
-        this.getTransactions();
-        //this.getUser();
+    mounted: function () {
+        //this.getTransactions();
+        this.fetchData();
     },
     components: {
         Link,
@@ -73,22 +92,22 @@ export default {
             </thead>
 
             <tbody>
-                <tr v-for="(item, index) in transactions" :key="transactions[index].id" class="border-b border-myDark-100 hover:bg-myDark-100">
+                <tr v-for="(item, index) in transactions" :key="transactions[index].id"
+                    class="border-b border-myDark-100 hover:bg-myDark-100">
                     <td class="pl-8 py-2">{{ index + 1 }}</td>
                     <td>{{ dateConvert(item.date).date }}</td>
-                    <!-- <td class="pl-3 py-2">Date</td> -->
                     <td class="pl-3 py-2">{{ item.title }}</td>
                     <td class="pl-3 py-2">{{ item.ammount }}</td>
                     <td class="pl-3 py-2">{{ item.category_name }}</td>
                     <td class="pl-3 py-2 text-myDark-300 font-semibold text-sm">
                         <span class="bg-myGreen rounded-full px-2" v-if="item.type === 'Income'">{{
-                                item.type
+                            item.type
                         }}</span>
                         <span class="bg-myRed rounded-full px-2" v-if="item.type === 'Expances'">{{
-                                item.type
+                            item.type
                         }}</span>
                         <span class="bg-myBlue rounded-full px-2" v-if="item.type === 'Savings'">{{
-                                item.type
+                            item.type
                         }}</span>
                     </td>
                     <td class="flex items-center gap-2 pl-3 py-2">
@@ -100,9 +119,8 @@ export default {
                                     stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
                                 <line x1="88" y1="24" x2="168" y2="24" fill="none" stroke="currentColor"
                                     stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
-                                <path d="M200,56V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56" fill="none"
-                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="16"></path>
+                                <path d="M200,56V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56" fill="none" stroke="currentColor"
+                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></path>
                             </svg>
                         </div>
 
@@ -124,28 +142,21 @@ export default {
                 </tr>
             </tbody>
         </table>
+
         <div class="flex justify-between items-start px-8 py-3">
-            <div>
-                <Link :href="route('transactions')" class=" text-white" v-if="$page.component !== 'Transactions'">
-                <tr class="flex gap-3">
-                    <span>
-                        View More
-                    </span>
-                    <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                            viewBox="0 0 256 256">
-                            <rect width="256" height="256" fill="none"></rect>
-                            <line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor"
-                                stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line>
-                            <polyline points="144 56 216 128 144 200" fill="none" stroke="currentColor"
-                                stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline>
-                        </svg>
-                    </span>
-                </tr>
-                </Link>
-            </div>
-            <div>
-                Pagination
+            <div class="flex items-center gap-4">
+                <button :disabled="page === 1" @click="previousPage"
+                    :class="{ 'hover:text-white': page !== 1 }">Previous</button>
+                <ul class="flex items-center gap-2">
+                    <li v-for="pageNumber in pageNumbers" :key="pageNumber">
+                        <button :disabled="pageNumber === page" @click="goToPage(pageNumber)"
+                            :class="{ 'hover:text-white': pageNumber !== page }">
+                            {{ pageNumber }}
+                        </button>
+                    </li>
+                </ul>
+                <button :disabled="page === lastPage" @click="nextPage"
+                    :class="{ 'hover:text-white': page !== lastPage }">Next</button>
             </div>
         </div>
     </div>
