@@ -6,13 +6,14 @@ import { mapGetters, mapState, mapActions,} from 'vuex';
 export default {
     data() {
         return {
+            transactions: Array,
         }
     },
     computed: {
-        ...mapState([
+       /* ...mapState([
             'transactions',
             'user'
-        ])
+        ])*/
     },
     methods: {
         dateConvert(date) {
@@ -22,11 +23,17 @@ export default {
             myDate.time = newDate.toString().substring(16, 24)
             return myDate
         },
-        ...mapActions(["getTransactions", "getUser"])
+        
+        /*...mapActions(["getTransactions", "getUser"])*/
+        getTransactions(){
+            axios.get('transactions/list').then((response)=>{
+                this.transactions = response.data;
+            })
+        }
     },
     mounted : function () {
         this.getTransactions();
-        this.getUser();
+        //this.getUser();
     },
     components: {
         Link,
@@ -68,7 +75,7 @@ export default {
             <tbody>
                 <tr v-for="(item, index) in transactions" :key="transactions[index].id" class="border-b border-myDark-100 hover:bg-myDark-100">
                     <td class="pl-8 py-2">{{ index + 1 }}</td>
-                    <td>{{ dateConvert(item.created_at).date }}</td>
+                    <td>{{ dateConvert(item.date).date }}</td>
                     <!-- <td class="pl-3 py-2">Date</td> -->
                     <td class="pl-3 py-2">{{ item.title }}</td>
                     <td class="pl-3 py-2">{{ item.ammount }}</td>

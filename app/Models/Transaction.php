@@ -21,6 +21,6 @@ class Transaction extends Model
         'description',
         'ammount',
         'type',
-        'category'       
+        'category_id'       
     ];
 }

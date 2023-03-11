@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class TransactionController extends Controller
 {
@@ -44,6 +45,7 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
+       // dd($request->all());
         $userId = Auth::id();
         $request->validate([
             'title' => 'required',
@@ -54,21 +56,21 @@ class TransactionController extends Controller
 
         $contact = new Transaction([
             'userId' => $userId,
-            'title' => $request->get('title'),
-            'date' => $request->get('date'),
-            'description' => $request->get('description'),
-            'ammount' => $request->get('ammount'),
-            'type' => $request->get('type'),
-            'category_id' => $request->get('category')
+            'title' => $request->input('title'),
+            'date' => $request->input('date'),
+            'description' => $request->input('description'),
+            'ammount' => $request->input('ammount'),
+            'type' => $request->input('type'),
+            'category_id' => strval($request->input('category'))
         ]);
         $calcBalance = intval($request->get('ammount'));
         if ($request->get('type') === 'Income') {
             User::where('id', $userId)->limit(1)->increment('balance', $calcBalance);
-        } else {
+        } elseif ($request->get('type') !== 'Savings') {
             User::where('id', $userId)->limit(1)->decrement('balance', $calcBalance);
         }
         $contact->save();
-        return redirect('/transactions')->with('success', 'Contact saved!');
+        return redirect('/transactions')->with('success', 'Transaction saved!');
     }
 
     /**
@@ -118,16 +120,8 @@ class TransactionController extends Controller
 
     public function lineChart()
     {
-        /* return Transaction::where('userId', '=', Auth::id())
-        ->groupByRaw('SUBSTRING(created_at, 1, 10), type')
-        ->orderBy('created_at','ASC')
-        ->get(array( DB::raw('SUM(ammount) as amount'),
-                     DB::raw('SUBSTRING(created_at, 1, 10) as date'),
-                    'type'));*/
-
-
         $transactions = DB::table('transactions')
-            ->select(DB::raw('DATE(created_at) as date'), 'type', DB::raw('SUM(ammount) as total_amount'))
+            ->select(DB::raw('DATE(date) as date'), 'type', DB::raw('SUM(ammount) as total_amount'))
             ->groupBy('date', 'type')
             ->get();
 

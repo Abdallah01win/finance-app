@@ -98,8 +98,8 @@ export default {
                             <select id="category"
                                 class="mt-1 block w-full border-none focus:border-none focus:ring focus:ring-myBlue rounded-md bg-myDark-200 text-white"
                                 v-bind:disabled="form.type == ''" v-model="form.category" required>
-                                <option v-for="category in categories" :key="category.id" :value="category.id">{{
-                                    category.title }}
+                                <option v-for="category in categories" :key="category.id" :value="category.id">
+                                    {{ category.title }}
                                 </option>
                             </select>
                             <InputError class="mt-2" :message="form.errors.category" />
