@@ -1,11 +1,11 @@
 <script>
 import axios from 'axios';
 import { Link } from '@inertiajs/inertia-vue3';
-import { mapGetters, mapState, mapActions, } from 'vuex';
 
 export default {
     data() {
         return {
+            selectedOption: "",
             transactions: [],
             page: 1,
             lastPage: 1
@@ -20,7 +20,22 @@ export default {
                 pages.push(i);
             }
             return pages;
-        }
+        },
+        sortedItems() {
+            // determine the sort order based on the selected option
+            if (this.selectedOption === "date") {
+                return this.transactions.sort((a, b) => a.date.localeCompare(b.date));
+            } else if (this.selectedOption === "amount") {
+                return this.transactions.sort((a, b) => a.ammount - b.ammount);
+            } else if (this.selectedOption === "type") {
+                return this.transactions.sort((a, b) => a.type.localeCompare(b.type));
+            } else if (this.selectedOption === "category") {
+                return this.transactions.sort((a, b) => a.category_name.localeCompare(b.category_name));
+            } else {
+                // return the original array if no option is selected
+                return this.transactions;
+            }
+        },
     },
     methods: {
         dateConvert(date) {
@@ -48,10 +63,9 @@ export default {
         goToPage(pageNumber) {
             this.page = pageNumber;
             this.fetchData();
-        }
+        },
     },
     mounted: function () {
-        //this.getTransactions();
         this.fetchData();
     },
     components: {
@@ -67,13 +81,16 @@ export default {
                     Transactions</div>
             </div>
             <form action="#">
-                <select name="sortTransactions" id="sortTransactions"
+
+                <select v-model="selectedOption"
                     class="bg-myDark-300 rounded-lg text-white outline-none border border-myDark-100 focus:outline-myBlue w-48">
-                    <option value="">Newest</option>
-                    <option value="">Amount</option>
-                    <option value="">Type</option>
-                    <option value="">Oldest</option>
+                    <option value="">Sort By</option>
+                    <option value="date">Date</option>
+                    <option value="amount">Amount</option>
+                    <option value="type">Type</option>
+                    <option value="category">Category</option>
                 </select>
+
             </form>
         </div>
 
@@ -82,33 +99,32 @@ export default {
             <thead>
                 <tr class="border-b border-myDark-100">
                     <td class="pl-8 py-4 text-white capitalize">#</td>
-                    <td class="pl-3 py-4 text-white capitalize">Date</td>
                     <td class="pl-3 py-4 text-white capitalize ">title</td>
                     <td class="pl-3 py-4 text-white capitalize ">Amount</td>
                     <td class="pl-3 py-4 text-white capitalize ">Category</td>
+                    <td class="pl-3 py-4 text-white capitalize">Date</td>
                     <td class="pl-3 py-4 text-white capitalize ">Type</td>
                     <td class="pl-3 py-4 text-white capitalize ">Actions</td>
                 </tr>
             </thead>
 
             <tbody>
-                <tr v-for="(item, index) in transactions" :key="transactions[index].id"
+                <tr v-for="(item, index) in sortedItems" :key="sortedItems[index].id"
                     class="border-b border-myDark-100 hover:bg-myDark-100">
                     <td class="pl-8 py-2">{{ index + 1 }}</td>
-                    <td>{{ dateConvert(item.date).date }}</td>
                     <td class="pl-3 py-2">{{ item.title }}</td>
                     <td class="pl-3 py-2">{{ item.ammount }}</td>
                     <td class="pl-3 py-2">{{ item.category_name }}</td>
+                    <td class="pl-3 py-2">{{ dateConvert(item.date).date }}</td>
                     <td class="pl-3 py-2 text-myDark-300 font-semibold text-sm">
-                        <span class="bg-myGreen rounded-full px-2" v-if="item.type === 'Income'">{{
-                            item.type
-                        }}</span>
-                        <span class="bg-myRed rounded-full px-2" v-if="item.type === 'Expances'">{{
-                            item.type
-                        }}</span>
-                        <span class="bg-myBlue rounded-full px-2" v-if="item.type === 'Savings'">{{
-                            item.type
-                        }}</span>
+                        <span class="rounded-full px-2"
+                        :class="{
+                            'bg-myBlue': item.type === 'Savings', 
+                            'bg-myGreen': item.type === 'Income', 
+                            'bg-myRed': item.type === 'Expances', 
+                        }">
+                            {{ item.type }}
+                        </span>
                     </td>
                     <td class="flex items-center gap-2 pl-3 py-2">
                         <div class="cursor-pointer hover:text-white">
