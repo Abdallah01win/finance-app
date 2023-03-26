@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CategoryController;
 use App\Models\User;
 use App\Models\Category;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 /*
@@ -72,9 +73,7 @@ Route::controller(CategoryController::class)->middleware(['auth', 'verified'])->
     Route::get('/categories', function () {
         return Inertia::render('Categories');
     })->name('categories')->name('categories');
-    Route::get('/categories/category', function () {
-        return Inertia::render('Category');
-    })->name('Category')->name('category');
+    Route::post('/categories/category', 'show')->name('category/show');
 
     Route::get('/categories/list', 'index')->name('categories/list');
     Route::post('/categories/add', 'store')->name('categories/add');
