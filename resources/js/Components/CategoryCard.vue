@@ -9,11 +9,13 @@ const close = (id) => {
 
 </script>
 <script>
+import { Link } from '@inertiajs/inertia-vue3';
 export default {
     name: "CategoryCard",
     components: {
         Dropdown,
         DropdownLink,
+        Link,
     },
     props: {
         data: Array,
@@ -46,7 +48,12 @@ export default {
 </script>
 <template>
     <div v-for="(item, index) in data" :key=index>
-        <div class="bg-myDark-100 overflow-hidden sm:rounded-lg flex cursor-pointer">
+        <Link
+        class="bg-myDark-100 overflow-hidden sm:rounded-lg flex w-full cursor-pointer"
+        :href="route('category/show')" 
+        method="post"
+        as="button"
+        :data="{id : item.id}">
             <div class="px-6 py-4 grow">
                 <div class="flex justify-between items-center mb-3 text-white">
                     <div class="flex gap-x-4 items-center">
@@ -105,6 +112,6 @@ export default {
                     </div>
                 </div>
             </div>
-        </div>
+        </Link>
     </div>
 </template>

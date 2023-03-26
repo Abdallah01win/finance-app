@@ -90,9 +90,6 @@ class RegisteredUserController extends Controller
         $user = User::where('id', '=', $userId)->limit(1)->update([
             'name' => $request->FirstName,
             'last_name' => $request->last_name,
-            'income_target' => $request->income,
-            'expances_target' => $request->expances,
-            'savings_target' => $request->savings,
             'currancy' => $request->currancy,
             'language' => $request->language,
             'image' => asset('storage/' . $imageUrl)

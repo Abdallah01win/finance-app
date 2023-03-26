@@ -29,8 +29,7 @@ onMounted(() => {
                     data: [],
                     pointRadius: 0,
                     borderWidth: 2,
-                    borderColor: type === "Expances" ? "#e50201ff" : "#2f66eeff",
-
+                    borderColor: type === "Expances" ? "#e50201ff" : type === "Savings" ? "#2f66eeff" : "#1fbe6dff",
                 };
                 // Loop through each day and get the total amount for the current type and day
                 Object.entries(data).forEach(([date, values]) => {
@@ -39,9 +38,9 @@ onMounted(() => {
                     typeData[type].data.push({ x: formattedDate, y: amount });
                 });
             });
-            console.log(typeData)
             const myChart = new Chart(ctx, {
                 type: 'line',
+                id: 'myChart',
                 data: {
                     datasets: Object.values(typeData),
                 },
@@ -75,27 +74,45 @@ onMounted(() => {
                     },
                     plugins: {
                         legend: {
-                            display: true,
+                            display: false,
                         }
                     }
                 }
             });
         }
     })
+    const legendItems = document.querySelectorAll('.legend-item');
+    legendItems.forEach((item) => {
+        item.addEventListener('click', () => {
+            const chart = Chart.getChart('myChart');
+            const clickedLabel = item.getAttribute('data-label');
+            chart.data.datasets.forEach((set) => {
+                if (set.label === clickedLabel) {
+                    const datasetIndex = chart.data.datasets.indexOf(set);
+                    if (datasetIndex !== -1) {
+                        const meta = chart.getDatasetMeta(datasetIndex);
+                        meta.hidden = !meta.hidden;
+                        chart.update();
+                        item.classList.toggle('line-through')
+                        item.firstElementChild.classList.toggle('bg-white/40')
+                    }
+                }
+            })
+        });
+    })
 })
 </script>
 <script>
-//import axios from 'axios';
 export default {
     data() {
         return {
-            //transactions: [],
             incomeTarget: true,
             expancesTarget: true,
             savingsTarget: false,
             components: {
                 TransactionsTable,
             },
+            typeData: ''
         }
     },
     props: {
@@ -117,9 +134,6 @@ export default {
 
             return myDate
         }
-    },
-    mounted: function () {
-        //this.loadTransactions();
     }
 }
 </script>
@@ -183,15 +197,16 @@ export default {
                     <div class="flex items-center justify-between mb-6">
                         <div class="text-white text-2xl font-medium">Statistics</div>
                         <div class="flex items-center text-sm py-2 px-3 bg-myDark-300 rounded-lg border border-myDark-100">
-                            <div class="flex items-center">
+                            <div class="flex items-center legend-item cursor-pointer" data-label="Income">
                                 <span class="w-5 h-5 bg-myGreen border border-myDark-100 mr-2 rounded-md"></span>
                                 <span>Income</span>
                             </div>
-                            <div class="flex items-center border-x border-myDark-100 mx-3 px-3">
+                            <div class="flex items-center border-x border-myDark-100 mx-3 px-3 legend-item cursor-pointer"
+                                data-label="Expances">
                                 <span class="w-5 h-5 bg-myRed border border-myDark-100 mr-2 rounded-md"></span>
                                 <span>Expances</span>
                             </div>
-                            <div class="flex items-center">
+                            <div class="flex items-center legend-item cursor-pointer" data-label="Savings">
                                 <span class="w-5 h-5 bg-myBlue border border-myDark-100 mr-2 rounded-md"></span>
                                 <span>Savings</span>
                             </div>
@@ -272,12 +287,4 @@ select {
     background-image: url(../../../storage/assets/caret-down.svg) !important;
     background-size: 1.3rem 1.3rem !important;
 }
-</style>
-
-
-/* Doughnut Chart data query */
-//SELECT SUM(ammount), type, created_at FROM `transactions` GROUP BY type;
-
-
-/* Line Chart data query */
-//SELECT SUM(ammount) as amount, type, substr(created_at, 1, 10) as date FROM `transactions` GROUP BY substr(created_at, 1, 10); 
+</style> 

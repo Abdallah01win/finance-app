@@ -13,13 +13,16 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            transactions: [],
+            //transactions: [],
             categories: '',
             components: {
                 TransactionForm,
                 TransactionsTable
             },
         }
+    },
+    props:{
+        transactions: Object,
     },
     methods: {
         loadTransactions() {
@@ -33,7 +36,7 @@ export default {
     },
     
     mounted: function () {
-        this.loadTransactions();
+        //this.loadTransactions();
         this.loadCategories();
     }
 }
