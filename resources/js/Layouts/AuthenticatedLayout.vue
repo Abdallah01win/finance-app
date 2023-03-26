@@ -210,7 +210,7 @@ export default {
                 <div class="bg-myDark-200 shadow w-[22%] h-[91.5vh]">
                     <ul class="flex flex-col h-full">
                         <div class="uppercase text-white text-lg pl-8 pr-4 py-3 flex items-center justify-between">
-                            <span>main menu {{ $store.state.counter }}</span>
+                            <span>main menu</span>
                             <span class="w-6 hover:rotate-180 cursor-pointer transition-all">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
                                     <title>Chevron Forward</title>

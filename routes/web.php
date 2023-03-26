@@ -59,26 +59,21 @@ Route::get('/', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 /** Transactions Routes */
-Route::controller(TransactionController::class)->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/transactions', function () {
-        return Inertia::render('Transactions');
-    })->name('transactions');
-    Route::get('/transactions/list', 'index')->name('transactions/list');
-    Route::post('/transactions/add', 'store')->name('transactions/add');
-    Route::get('/transactions/lineChart', 'lineChart')->name('transactions/lineChart');
+Route::middleware(['auth', 'verified'])->prefix('transactions')->name('transactions.')->group(function () {
+    Route::get('/', [TransactionController::class, 'index']);
+    Route::post('store', [TransactionController::class, 'store'])->name('store');
+    Route::get('list', [TransactionController::class, 'list'])->name('list');
+    Route::get('lineChart', [TransactionController::class, 'lineChart'])->name('lineChart');
 });
 
 /** Categories Routes */
-Route::controller(CategoryController::class)->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/categories', function () {
-        return Inertia::render('Categories');
-    })->name('categories')->name('categories');
-    Route::post('/categories/category', 'show')->name('category/show');
-
-    Route::get('/categories/list', 'index')->name('categories/list');
-    Route::post('/categories/add', 'store')->name('categories/add');
-    Route::post('/categories/edit', 'edit')->name('categories/edit');
-    Route::post('/categories/destroy', 'destroy')->name('categories/destroy');
+Route::middleware(['auth', 'verified'])->prefix('categories')->group(function () {
+    Route::get('/', [CategoryController::class, 'index'])->name('categories');
+    Route::post('category', [CategoryController::class, 'show'])->name('category.show');
+    Route::get('list', [CategoryController::class, 'index'])->name('categories.list');
+    Route::post('add', [CategoryController::class, 'store'])->name('categories.add');
+    Route::post('edit', [CategoryController::class, 'edit'])->name('categories.edit');
+    Route::post('destroy', [CategoryController::class, 'destroy'])->name('categories.destroy');
 });
 
 /** Settings Routes */
@@ -100,7 +95,6 @@ Route::controller(RegisteredUserController::class)->middleware(['auth', 'verifie
 Route::controller(RegisteredUserController::class)->middleware(['auth', 'verified'])->group(function () {
     Route::get('/users/balance', 'getBalance')->name('/users/balance');
     Route::get('/users', 'getUser')->name('/users');
-    //Route::get('/user/avatar', 'getAvatar')->name('user/avatar');
 });
 
 require __DIR__ . '/auth.php';

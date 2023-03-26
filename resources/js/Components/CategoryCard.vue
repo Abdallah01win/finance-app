@@ -19,7 +19,7 @@ export default {
     },
     props: {
         data: Array,
-        type: String
+        type: String,
     },
     methods: {
         dateConvert(date) {
@@ -42,7 +42,7 @@ export default {
             const timeDiff = inputDate.getTime() - currentDate.getTime();
             const daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));
             return daysLeft;
-        }
+        },
     }
 };
 </script>
@@ -50,7 +50,7 @@ export default {
     <div v-for="(item, index) in data" :key=index>
         <Link
         class="bg-myDark-100 overflow-hidden sm:rounded-lg flex w-full cursor-pointer"
-        :href="route('category/show')" 
+        :href="route('category.show')" 
         method="post"
         as="button"
         :data="{id : item.id}">
@@ -78,7 +78,7 @@ export default {
                         </template>
 
                         <template #content>
-                            <DropdownLink :href="route('categories/edit')" method="post" as="button"
+                            <DropdownLink :href="route('categories.edit')" method="post" as="button"
                                 :data="{ id: item.id }">
                                 Edit
                             </DropdownLink>

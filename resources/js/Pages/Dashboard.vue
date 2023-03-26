@@ -6,7 +6,7 @@ import { onMounted } from 'vue';
 import Chart from 'chart.js/auto';
 
 onMounted(() => {
-    fetch('transactions/lineChart').then((response) => {
+    fetch('transactions.lineChart').then((response) => {
         return response.json();
     }).then((data) => {
         function dateConvert(date) {

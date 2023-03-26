@@ -37,7 +37,7 @@ const close = (id) => {
                     Cancel
                 </PrimaryButton>
 
-                <DropdownLink :href="route('categories/destroy')" method="post" as="button" :data="{id : itemId}"
+                <DropdownLink :href="route('categories.destroy')" method="post" as="button" :data="{id : itemId}"
                     class="ml-4 bg-gray-800 rounded-md font-semibold text-xs text-white uppercase  tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150 w-fit">Delete
                 </DropdownLink>
 

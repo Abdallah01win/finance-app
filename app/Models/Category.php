@@ -18,6 +18,6 @@ class Category extends Model
         'userId',
         'title',
         'limit',
-        'type',     
+        'type',
     ];
 }

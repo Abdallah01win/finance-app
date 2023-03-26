@@ -30,7 +30,7 @@ class CategoryController extends Controller
                 ->whereBetween('created_at', [$currentWeekStart, $currentWeekEnd])
                 ->sum('ammount');
         }
-        return $data;
+        return Inertia::render('Categories', ['categories' => $data]);
     }
 
     /**
@@ -54,6 +54,8 @@ class CategoryController extends Controller
         $request->validate([
             'title' => 'required',
             'type' => 'required',
+            'limit' => 'numeric',
+            'deadline' => 'date',
         ]);
 
         $contact = new Category([
@@ -64,7 +66,7 @@ class CategoryController extends Controller
             'deadline' => $request->get('deadline'),
         ]);
         $contact->save();
-        return redirect('/categories')->with('success', 'Contact saved!');
+        return redirect()->back()->with('success', 'Category Created sucessfully!');
     }
 
     /**
@@ -75,30 +77,6 @@ class CategoryController extends Controller
      */
     public function show(Request $request)
     {
-        $timeSpan = isset($request->timeSpan) ? $request->timeSpan : 'month';
-
-        $categories = Category::where('id', $request->id)
-            ->with(['transactions' => function ($query) {
-                $query->orderBy('created_at', 'desc');
-            }])->get();
-
-        $groupedCategories = $categories->map(function ($category) use ($timeSpan) {
-            $transactions = $category->transactions->groupBy(function ($transaction) use ($timeSpan) {
-                if ($timeSpan == 'month') {
-                    return $transaction->created_at->format('Y-m');
-                } elseif ($timeSpan == 'week') {
-                    return $transaction->created_at->format('Y-W');
-                }
-            });
-
-            return [
-                'category' => $category,
-                'transactions' => $transactions,
-            ];
-        });
-        return Inertia::render('Category', [
-            'groupedCategories' => $groupedCategories
-        ]);
     }
 
     /**

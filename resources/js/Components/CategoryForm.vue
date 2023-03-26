@@ -13,7 +13,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('categories/add'), {
+    form.post(route('categories.add'), {
         onFinish: () => {
             form.reset('title', 'limit', 'type', 'deadline')
             close('formHolder')

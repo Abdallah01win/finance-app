@@ -9,12 +9,9 @@ import { Head, useForm } from '@inertiajs/inertia-vue3';
 
 </script>
 <script>
-import axios from 'axios';
 export default {
     data() {
         return {
-            //transactions: [],
-            categories: '',
             components: {
                 TransactionForm,
                 TransactionsTable
@@ -22,23 +19,9 @@ export default {
         }
     },
     props:{
-        transactions: Object,
+        categories: Object,
     },
-    methods: {
-        loadTransactions() {
-            axios.get('transactions/list').then(response => this.transactions = response.data);
-        },
-        loadCategories() {
-           axios.get('categories/list').then((response) => {
-                this.categories = response.data;
-            });
-        },
-    },
-    
-    mounted: function () {
-        //this.loadTransactions();
-        this.loadCategories();
-    }
+
 }
 </script>
             

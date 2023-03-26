@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use App\Models\User;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,14 +19,10 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //route should be a post one and send fillters through it then build the query with the set ones 
-        $transactions = Transaction::join('categories', 'categories.id', '=', 'transactions.category_id')
-            ->select('transactions.*', 'categories.title as category_name')
-            ->where('transactions.userId', '=', Auth::id())
-            ->limit(10)
-            ->orderBy('transactions.created_at', 'desc')
-            ->paginate(10);
-            return response()->json($transactions);
+        $userId = Auth::id();
+        $data = Category::where('userId', $userId)->get();
+        $categories = $data->toArray();
+        return Inertia::render('Transactions', ['categories' => $categories]);
     }
 
     /**
@@ -46,7 +43,7 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-       // dd($request->all());
+        // dd($request->all());
         $userId = Auth::id();
         $request->validate([
             'title' => 'required',
@@ -140,5 +137,16 @@ class TransactionController extends Controller
             $transaction_totals[$date][$type] = $amount;
         }
         return $transaction_totals;
+    }
+
+    public function list()
+    {
+        $data = Transaction::join('categories', 'categories.id', '=', 'transactions.category_id')
+            ->select('transactions.*', 'categories.title as category_name')
+            ->where('transactions.userId', '=', Auth::id())
+            ->limit(10)
+            ->orderBy('transactions.created_at', 'desc')
+            ->paginate(10);
+        return response()->json($data);
     }
 }

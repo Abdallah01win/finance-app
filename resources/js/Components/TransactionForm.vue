@@ -15,7 +15,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('transactions/add'), {
+    form.post(route('transactions.add'), {
         onFinish: () => {
             form.reset('title', 'ammount', 'category', 'date', 'description', 'type')
             close('TransactionFormHolder')
